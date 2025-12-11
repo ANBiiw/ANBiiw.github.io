@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Poit Links & Portfolio</title>
+  <title>Poit4poi4</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     *, *::before, *::after {
@@ -12,1004 +12,246 @@
     }
 
     :root {
-      --bg: #f4f4f6;
-      --card-bg: #ffffff;
-      --accent: #111111;
-      --accent-soft: #222222;
-      --muted: #777777;
-      --border-soft: #e1e1e6;
-      --radius-lg: 18px;
-      --radius-md: 14px;
+      --accent-text: #f7f7fb;
+      --muted: #b9bbd2;
       --radius-pill: 999px;
-      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.06);
       --transition: 0.2s ease;
     }
 
+    html, body { height: 100%; }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      background: #e0e0e6;
-      color: #111;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.5;
+      color: var(--accent-text);
+      background-color: #111;
     }
 
-    .page-wrap {
-      max-width: 1200px;
-      margin: 24px auto;
-      padding: 24px 16px;
-      background: var(--bg);
-      border-radius: 24px;
-      box-shadow: var(--shadow-soft);
-    }
+    a { color: inherit; }
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-    }
-
-    .logo {
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 14px;
-    }
-
-    nav ul {
-      display: flex;
-      gap: 16px;
-      list-style: none;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    nav a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .btn {
-      border: none;
-      cursor: pointer;
-      padding: 8px 18px;
-      border-radius: var(--radius-pill);
-      font-size: 14px;
-      font-weight: 500;
-      transition: transform var(--transition), box-shadow var(--transition),
-        background-color var(--transition), color var(--transition);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--border-soft);
-      color: var(--accent-soft);
-    }
-
-    .btn-primary {
-      background: var(--accent-soft);
-      color: #fff;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
-    }
-
-    .btn-primary:hover,
-    .btn-outline:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
-    }
-
-    main {
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-    }
-
-    /* HERO */
+    /* ───── HERO 영역 ───── */
 
     .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-      gap: 32px;
-      align-items: center;
+      height: 100vh;
+      width: 100%;
+      min-height: 600px;
       position: relative;
+      overflow: hidden;
     }
 
+    /* GIF 재생되는 실제 레이어 */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 어둡게 오버레이 */
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg width='600' height='300' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 180 Q 150 120 300 160 T 600 150' fill='none' stroke='%23d6d6df' stroke-width='1.5' stroke-dasharray='6 6'/%3E%3C/svg%3E");
-      opacity: 0.45;
-      mix-blend-mode: multiply;
-      pointer-events: none;
+      background: rgba(0,0,0,0.35);
+      z-index: 1;
     }
 
     .hero-inner {
       position: relative;
-      z-index: 1;
-    }
-
-    .hero-kicker {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .hero-title {
-      font-size: clamp(28px, 4vw, 40px);
-      line-height: 1.1;
-      margin-bottom: 16px;
-    }
-
-    .hero-title span {
-      text-decoration: underline;
-      text-decoration-thickness: 4px;
-      text-decoration-color: #c2c2ff;
-      text-underline-offset: 4px;
-    }
-
-    .hero-text {
-      color: #444;
-      font-size: 15px;
-      margin-bottom: 20px;
-      max-width: 440px;
-    }
-
-    .hero-cta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .hero-cta small {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .hero-gallery {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 1.25fr 0.9fr;
-      grid-template-rows: repeat(2, minmax(120px, 1fr));
-      gap: 12px;
-    }
-
-    .img-card {
-      background: var(--card-bg);
-      border-radius: var(--radius-lg);
-      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .img-card img {
-      width: 100%;
+      z-index: 2;
       height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .img-card.large {
-      grid-row: 1 / 3;
-    }
-
-    .img-card.small {
-      border-radius: var(--radius-md);
-    }
-
-    /* SECTIONS */
-
-    .section {
+      padding: 20px 32px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      justify-content: space-between;
     }
 
-    .section-header {
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hero-logo {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
+
+    .hero-right {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .section-title {
-      font-size: 20px;
-    }
-
-    .section-tabs {
-      display: flex;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--muted);
-      flex-wrap: wrap;
-    }
-
-    .section-tabs button {
-      border: none;
-      background: transparent;
-      padding: 6px 10px;
-      border-radius: var(--radius-pill);
-      cursor: pointer;
-      font-size: 13px;
-      color: inherit;
-      transition: background-color var(--transition), color var(--transition);
-    }
-
-    .section-tabs button.active {
-      background: #111;
-      color: #fff;
-    }
-
-    .section-tabs button:hover:not(.active) {
-      background: rgba(0, 0, 0, 0.04);
-    }
-
-    .card-row {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 16px;
+      font-size: 13px;
     }
 
-    .link-card {
-      background: var(--card-bg);
-      border-radius: var(--radius-lg);
-      padding: 10px 10px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.06);
-      cursor: pointer;
+    .hero-email a {
+      color: #ffffff;
       text-decoration: none;
-      color: inherit;
-      transition: transform var(--transition), box-shadow var(--transition);
     }
 
-    .link-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.12);
-    }
-
-    .thumb {
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      background: #ddd;
-      height: 120px;
-    }
-
-    .thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .link-meta-title {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .link-meta-sub {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    /* LATEST STORIES / POSTS */
-
-    .stories-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
-      gap: 16px;
-    }
-
-    .story-main,
-    .story-small {
-      background: var(--card-bg);
-      border-radius: var(--radius-lg);
-      padding: 14px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 14px;
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.06);
-    }
-
-    .story-main .thumb {
-      height: 160px;
-    }
-
-    .story-small {
-      grid-template-columns: 90px minmax(0, 1fr);
-      padding: 10px;
-      margin-bottom: 10px;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
-    }
-
-    .story-small:last-child {
-      margin-bottom: 0;
-    }
-
-    .story-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      margin-bottom: 4px;
-    }
-
-    .story-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .story-meta {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .story-excerpt {
-      font-size: 13px;
-      color: #555;
-      margin-top: 6px;
-    }
-
-    /* HIGHLIGHTS */
-
-    .highlights-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
-      gap: 16px;
-    }
-
-    .profile-card {
-      background: var(--card-bg);
-      border-radius: var(--radius-lg);
-      padding: 16px;
-      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.08);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .profile-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .profile-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      overflow: hidden;
-      background: #ddd;
-      flex-shrink: 0;
-    }
-
-    .profile-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .profile-name {
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .profile-role {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .rating {
-      display: flex;
-      gap: 2px;
-      font-size: 12px;
-      color: #f5a623;
-    }
-
-    .profile-text {
-      font-size: 13px;
-      color: #444;
-      max-height: 120px;
-      overflow: auto;
-    }
-
-    .profile-meta {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .highlight-right {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-      gap: 14px;
-    }
-
-    .highlight-card {
-      background: var(--card-bg);
-      border-radius: var(--radius-lg);
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.07);
-    }
-
-    .highlight-card .thumb {
-      height: 130px;
-    }
-
-    .play-badge {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 14px;
-    }
-
-    .thumb.playable {
-      position: relative;
-    }
-
-    .highlight-footer {
-      margin-top: auto;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .link-inline {
-      font-size: 12px;
+    .hero-email a:hover {
       text-decoration: underline;
-      cursor: pointer;
-      color: var(--accent-soft);
     }
 
-    /* NEWSLETTER */
+    .copy-btn {
+      padding: 3px 10px;
+      font-size: 11px;
+      border-radius: var(--radius-pill);
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: var(--transition);
+      color: #fff;
+    }
 
-    .newsletter {
-      margin-top: 10px;
-      background: #dadbe5;
-      border-radius: 22px;
-      padding: 28px 20px;
-      text-align: center;
+    .copy-btn.copied {
+      background: #b7e3c0;
+      color: #0d7a34;
+      font-weight: 600;
+    }
+
+    /* 상단 오른쪽 플랫폼 아이콘 */
+
+    .hero-platform-icons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .hero-platform-icons img {
+      width: 22px;
+      height: 22px;
+      opacity: 0.88;
+      transition: 0.2s ease;
+    }
+
+    .hero-platform-icons img:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+
+    /* ───── SNS 세로 아이콘 (테두리 없음) ───── */
+
+    .hero-sns {
+      position: absolute;
+      right: 42px;
+      top: 50%;
+      transform: translateY(-50%);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 20px;
+      z-index: 3;
     }
 
-    .newsletter-title {
-      font-size: 18px;
-      font-weight: 700;
+    .hero-sns-link img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.55));
+      transition: 0.2s ease;
     }
 
-    .newsletter-text {
-      font-size: 13px;
-      color: #444;
+    .hero-sns-link img:hover {
+      transform: translateY(-3px);
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.75));
     }
 
-    .newsletter-form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 8px;
-    }
-
-    .newsletter-input-wrap {
-      position: relative;
-      flex: 1 1 240px;
-      max-width: 360px;
-    }
-
-    .newsletter input {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: var(--radius-pill);
-      border: none;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .newsletter small {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    /* FOOTER */
-
-    footer {
-      margin-top: 24px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border-soft);
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.2fr repeat(3, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .footer-title {
-      font-weight: 600;
-      font-size: 13px;
-      margin-bottom: 4px;
-      color: #333;
-    }
-
-    .footer-links {
-      list-style: none;
-    }
-
-    .footer-links li + li {
-      margin-top: 2px;
-    }
-
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .socials {
-      display: flex;
-      gap: 8px;
-      font-size: 13px;
-    }
-
-    .pill {
-      padding: 4px 8px;
-      border-radius: var(--radius-pill);
-      background: rgba(0, 0, 0, 0.05);
-    }
-
-    /* RESPONSIVE: MOBILE / TABLET */
-
-    @media (max-width: 900px) {
-      .page-wrap {
-        margin: 0;
-        border-radius: 0;
-      }
-
-      header {
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      nav {
-        display: none; /* 모바일은 링크트리 느낌으로 상단 메뉴 숨김 */
-      }
-
-      main {
-        gap: 32px;
-      }
-
-      .hero {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .hero-gallery {
-        grid-template-columns: 1.2fr 1fr;
-      }
-
-      .hero-cta {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .card-row {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .stories-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .story-main {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .stories-grid > div:last-child {
-        /* 오른쪽 작은 카드들 전체를 하나의 세로 리스트로 */
-      }
-
-      .highlights-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .highlight-right {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .newsletter {
-        border-radius: 18px;
-      }
-
-      .footer-grid {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .hero-gallery {
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-rows: auto;
-      }
-      .img-card.large {
-        grid-row: auto;
-      }
-      .story-small {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .footer-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .newsletter-form {
-        flex-direction: column;
-      }
-      .btn {
-        width: 100%;
-        text-align: center;
-        justify-content: center;
-      }
-    }
   </style>
 </head>
+
 <body>
-  <div class="page-wrap">
-    <header>
-      <div class="logo">Poit</div>
-      <nav>
-        <ul>
-          <li><a href="#top-links">Links</a></li>
-          <li><a href="#latest">Latest</a></li>
-          <li><a href="#highlights">Highlights</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="nav-actions">
-        <button class="btn btn-outline">한국어 / EN</button>
-        <button class="btn btn-primary">Portfolio</button>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <!-- 배경 GIF -->
+    <div class="hero-bg">
+      <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/gif/gif%20copy.gif?raw=true" alt="background gif" />
+    </div>
+
+    <div class="hero-inner">
+      <div class="hero-top">
+
+        <!-- 좌측 로고 -->
+        <div class="hero-logo">poit4poit</div>
+
+        <!-- 우측 이메일 + 아트스테이션 + 링크드인 -->
+        <div class="hero-right">
+
+          <div class="hero-email">
+            <a id="emailText" href="mailto:coraline0120@gmail.com">coraline0120@gmail.com</a>
+            <button id="copyBtn" class="copy-btn" onclick="copyEmail()">Copy</button>
+          </div>
+
+          <div class="hero-platform-icons">
+
+            <!-- ArtStation -->
+            <a href="https://www.artstation.com/kimchaeyeon" target="_blank">
+              <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/ArtStation_Logo_3.svg" alt="ArtStation" />
+            </a>
+
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/poit4poit" target="_blank">
+              <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/LinkedIn_Symbol_6.svg" alt="LinkedIn" />
+            </a>
+
+          </div>
+        </div>
+
       </div>
-    </header>
+    </div>
 
-    <main>
-      <!-- HERO -->
-      <section class="hero">
-        <div class="hero-inner">
-          <div class="hero-kicker">3D Character · Animation</div>
-          <h1 class="hero-title">
-            Discover <br />Poit’s <span>Hidden</span> Worlds
-          </h1>
-          <p class="hero-text">
-            3D 캐릭터, 애니메이션, 룩뎁 작업들을 한 곳에 모아둔 링크
-            허브입니다. 아래 카드들을 눌러 포잇의 SNS와 포트폴리오로 빠르게
-            이동해 보세요.
-          </p>
-          <div class="hero-cta">
-            <button class="btn btn-primary">View main portfolio</button>
-            <button class="btn btn-outline">Contact for freelance work</button>
-            <small>모바일에서는 링크트리처럼 카드만 눌러도 이동 가능</small>
-          </div>
-        </div>
+    <!-- 오른쪽 세로 SNS 아이콘 -->
+    <div class="hero-sns">
 
-        <div class="hero-gallery">
-          <div class="img-card large">
-            <img
-              src="images/poit-character.png"
-              alt="Poit character showcase main"
-            />
-          </div>
-          <div class="img-card small">
-            <img
-              src="images/poit-character.png"
-              alt="Poit character side view"
-            />
-          </div>
-          <div class="img-card small">
-            <img
-              src="images/poit-character.png"
-              alt="Poit character detail"
-            />
-          </div>
-        </div>
-      </section>
+      <!-- Instagram -->
+      <a class="hero-sns-link" href="https://www.instagram.com/poit4poit" target="_blank">
+        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/Instagram_Symbol_3.svg" alt="Instagram" />
+      </a>
 
-      <!-- TOP LINKS -->
-      <section class="section" id="top-links">
-        <div class="section-header">
-          <h2 class="section-title">Top Destinations</h2>
-          <div class="section-tabs">
-            <button class="active">Popular</button>
-            <button>Portfolio</button>
-            <button>Social</button>
-            <button>Contact</button>
-          </div>
-        </div>
+      <!-- TikTok -->
+      <a class="hero-sns-link" href="https://www.tiktok.com/@poit4poit" target="_blank">
+        <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/TikTok_Logo.png?raw=true" alt="TikTok" />
+      </a>
 
-        <div class="card-row">
-          <!-- 카드 안 링크 href 부분만 포잇이 수정하면 됨 -->
-          <a href="#" class="link-card">
-            <div class="thumb">
-              <img src="images/poit-character.png" alt="ArtStation" />
-            </div>
-            <div class="link-meta-title">ArtStation</div>
-            <div class="link-meta-sub">3D 캐릭터 · 개인 작품 모음</div>
-          </a>
+      <!-- YouTube -->
+      <a class="hero-sns-link" href="https://www.youtube.com/@poit4poit" target="_blank">
+        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg" alt="YouTube" />
+      </a>
 
-          <a href="#" class="link-card">
-            <div class="thumb">
-              <img src="images/poit-character.png" alt="Instagram" />
-            </div>
-            <div class="link-meta-title">Instagram</div>
-            <div class="link-meta-sub">@poit4poit · 캐릭터 스냅</div>
-          </a>
+      <!-- TMM (임시) -->
+      <a class="hero-sns-link" href="#" target="_blank">
+        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg" alt="TMM" />
+      </a>
 
-          <a href="#" class="link-card">
-            <div class="thumb">
-              <img src="images/poit-character.png" alt="TikTok" />
-            </div>
-            <div class="link-meta-title">TikTok</div>
-            <div class="link-meta-sub">3D 숏폼 영상</div>
-          </a>
+    </div>
 
-          <a href="#" class="link-card">
-            <div class="thumb">
-              <img src="images/poit-character.png" alt="YouTube Shorts" />
-            </div>
-            <div class="link-meta-title">YouTube Shorts</div>
-            <div class="link-meta-sub">애니메이션 클립 &amp; F1</div>
-          </a>
-        </div>
-      </section>
+  </section>
 
-      <!-- LATEST STORIES / POSTS -->
-      <section class="section" id="latest">
-        <div class="section-header">
-          <h2 class="section-title">Latest Stories</h2>
-          <button class="btn btn-outline" style="font-size: 12px;">
-            Read more articles
-          </button>
-        </div>
-
-        <div class="stories-grid">
-          <article class="story-main">
-            <div class="thumb">
-              <img
-                src="images/poit-character.png"
-                alt="Latest project thumbnail"
-              />
-            </div>
-            <div>
-              <div class="story-label">Featured project</div>
-              <h3 class="story-title">
-                프론티어 세계관: Murphii &amp; MurpBot 캐릭터 프로토타입
-              </h3>
-              <div class="story-meta">2025 · 3D Character · Stylized PBR</div>
-              <p class="story-excerpt">
-                프론티어 세계관의 핵심 감정을 담은 첫 캐릭터. 마야, ZBrush,
-                서브스턴스 페인터를 사용해 전체 파이프라인을 직접 구축했습니다.
-              </p>
-            </div>
-          </article>
-
-          <div>
-            <article class="story-small">
-              <div class="thumb">
-                <img
-                  src="images/poit-character.png"
-                  alt="Recent work 1 thumbnail"
-                />
-              </div>
-              <div>
-                <div class="story-label">Work</div>
-                <h3 class="story-title">휴지심 로봇 동료 프로젝트</h3>
-                <div class="story-meta">Arduino · DFPlayer Mini · 3D Shell</div>
-              </div>
-            </article>
-
-            <article class="story-small">
-              <div class="thumb">
-                <img
-                  src="images/poit-character.png"
-                  alt="Recent work 2 thumbnail"
-                />
-              </div>
-              <div>
-                <div class="story-label">Sketch</div>
-                <h3 class="story-title">F1 헬멧 컨셉 - Frontier Edition</h3>
-                <div class="story-meta">Helmet design · 3D mockup</div>
-              </div>
-            </article>
-
-            <article class="story-small">
-              <div class="thumb">
-                <img
-                  src="images/poit-character.png"
-                  alt="Recent work 3 thumbnail"
-                />
-              </div>
-              <div>
-                <div class="story-label">Blog</div>
-                <h3 class="story-title">
-                  3D 캐릭터 포트폴리오를 위한 파이프라인 정리
-                </h3>
-                <div class="story-meta">Pipeline · Maya · Unreal/Unity</div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- HIGHLIGHTS -->
-      <section class="section" id="highlights">
-        <h2 class="section-title">Trekker’s Highlights</h2>
-
-        <div class="highlights-grid">
-          <div class="profile-card">
-            <div class="profile-header">
-              <div class="profile-avatar">
-                <img
-                  src="images/poit-character.png"
-                  alt="Poit avatar"
-                />
-              </div>
-              <div>
-                <div class="profile-name">Poit</div>
-                <div class="profile-role">3D Character Modeler · Animator</div>
-                <div class="rating">★★★★★</div>
-              </div>
-            </div>
-            <p class="profile-text">
-              마야, 맥스, ZBrush, Unity, 마블러스 디자이너 등을 사용해
-              캐릭터와 세계관을 구축합니다. 프론티어 팀과 F1, 로봇, 디스토피아
-              세계를 넘나드는 스토리 중심 작업을 좋아합니다.
-            </p>
-            <div class="profile-meta">
-              Available for remote freelance · Preferred tools: Maya 2025,
-              Substance Painter, After Effects
-            </div>
-          </div>
-
-          <div class="highlight-right">
-            <div class="highlight-card">
-              <div class="thumb">
-                <img
-                  src="images/poit-character.png"
-                  alt="3D reel thumbnail"
-                />
-              </div>
-              <div class="link-meta-title">3D Demo Reel</div>
-              <div class="link-meta-sub">
-                주요 캐릭터 애니메이션과 룩뎁 작업들을 한 번에 보고 싶다면
-                여기로.
-              </div>
-              <div class="highlight-footer">
-                <span class="link-inline">Watch on YouTube →</span>
-              </div>
-            </div>
-
-            <div class="highlight-card">
-              <div class="thumb playable">
-                <img
-                  src="images/poit-character.png"
-                  alt="Behind the scenes thumbnail"
-                />
-                <div class="play-badge">▶</div>
-              </div>
-              <div class="link-meta-title">Behind the Scenes</div>
-              <div class="link-meta-sub">
-                작업 과정 타임랩스, 실패한 시안들, 실험적인 루프 영상 모음.
-              </div>
-              <div class="highlight-footer">
-                <span class="link-inline">See the full playlist →</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- NEWSLETTER -->
-        <div class="newsletter" id="contact">
-          <div class="newsletter-title">
-            Get Your Travel Inspiration Straight to Your Inbox
-          </div>
-          <div class="newsletter-text">
-            실제로 메일링 리스트를 사용하지 않을 거라면, 이 영역은
-            &ldquo;Contact&rdquo; 안내문이나 작업 의뢰 폼 링크로 바꿔도
-            됩니다.
-          </div>
-          <form class="newsletter-form" onsubmit="return false;">
-            <div class="newsletter-input-wrap">
-              <input
-                type="email"
-                placeholder="메일 주소를 입력해주세요"
-                aria-label="Email"
-              />
-            </div>
-            <button class="btn btn-primary" type="submit">
-              Subscribe
-            </button>
-          </form>
-          <small>
-            구독 폼이 실제로 작동하게 만들려면 나중에 폼 서비스(예: Formspree,
-            Google Form)와 연결하면 됩니다.
-          </small>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <div class="footer-grid">
-        <div>
-          <div class="footer-title">Poit</div>
-          <p>
-            3D 캐릭터 모델링, 애니메이션, 룩뎁을 중심으로 개인 세계관
-            &ldquo;Frontier&rdquo;를 확장하고 있습니다.
-          </p>
-        </div>
-        <div>
-          <div class="footer-title">About</div>
-          <ul class="footer-links">
-            <li>Profile</li>
-            <li>Skills &amp; Tools</li>
-            <li>CV / Resume</li>
-          </ul>
-        </div>
-        <div>
-          <div class="footer-title">Links</div>
-          <ul class="footer-links">
-            <li>ArtStation</li>
-            <li>Instagram</li>
-            <li>TikTok</li>
-            <li>YouTube</li>
-          </ul>
-        </div>
-        <div>
-          <div class="footer-title">Contact</div>
-          <ul class="footer-links">
-            <li>Mail: coraline0120@gmail.com</li>
-            <li>DM: @poit4poit</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <div>© <span id="year"></span> Poit · All rights reserved.</div>
-        <div class="socials">
-          <span class="pill">@poit4poit</span>
-          <span class="pill">3D · Animation</span>
-        </div>
-      </div>
-    </footer>
-  </div>
-
+  <!-- 이메일 복사 기능 -->
   <script>
-    // 연도 자동 업데이트
-    document.getElementById("year").textContent = new Date().getFullYear();
+    function copyEmail() {
+      const btn = document.getElementById("copyBtn");
+      const email = "coraline0120@gmail.com";
+
+      navigator.clipboard.writeText(email);
+
+      btn.textContent = "✔️";
+      btn.classList.add("copied");
+
+      setTimeout(() => {
+        btn.textContent = "Copy";
+        btn.classList.remove("copied");
+      }, 1200);
+    }
   </script>
+
 </body>
 </html>
