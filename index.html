@@ -2,8 +2,19 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Poit4poit</title>
+  <title>poit4poit</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- HsSantoki20 -->
+  <style>
+    @font-face {
+      font-family: 'HsSantoki20';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2405@1.0/HSSanTokki20-Regular.woff2') format('woff2');
+      font-weight: normal;
+      font-display: swap;
+    }
+  </style>
+
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -11,35 +22,31 @@
       padding: 0;
     }
 
-    :root {
-      --accent-text: #f7f7fb;
-      --muted: #b9bbd2;
-      --radius-pill: 999px;
-      --transition: 0.2s ease;
+    html, body {
+      height: 100%;
     }
-
-    html, body { height: 100%; }
 
     body {
+      background: #000;
+      color: #fff;
+      overflow: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.5;
-      color: var(--accent-text);
-      background-color: #111;
     }
 
-    a { color: inherit; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-    /* ───── HERO 영역 ───── */
+    /* ===== HERO ===== */
 
     .hero {
-      height: 100vh;
-      width: 100%;
-      min-height: 600px;
       position: relative;
+      width: 100%;
+      height: 100vh;
       overflow: hidden;
     }
 
-    /* GIF 재생되는 실제 레이어 */
     .hero-bg {
       position: absolute;
       inset: 0;
@@ -50,9 +57,9 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
 
-    /* 어둡게 오버레이 */
     .hero::before {
       content: "";
       position: absolute;
@@ -61,204 +68,212 @@
       z-index: 1;
     }
 
-    .hero-inner {
-      position: relative;
-      z-index: 2;
-      height: 100%;
-      padding: 20px 32px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+    /* ===== TOP BAR ===== */
 
-    .hero-top {
+    .top-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      padding: 20px 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .hero-logo {
-      font-size: 30px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      color: #ffffff;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    /* 가운데 로고 */
+    .top-logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'HsSantoki20', sans-serif;
+      font-size: 36px;
+      letter-spacing: 0.02em;
+      color: #fff;
+      text-shadow: 0 4px 14px rgba(0,0,0,0.6);
+      user-select: none;
     }
 
-    .hero-right {
+    /* 우측 이메일 + 마켓 */
+    .top-right {
+      margin-left: auto;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       font-size: 13px;
     }
 
-    .hero-email a {
-      color: #ffffff;
-      text-decoration: none;
-    }
-
-    .hero-email a:hover {
-      text-decoration: underline;
+    .email {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .copy-btn {
       padding: 3px 10px;
       font-size: 11px;
-      border-radius: var(--radius-pill);
+      border-radius: 999px;
       background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.4);
+      border: 1px solid rgba(255,255,255,0.35);
       cursor: pointer;
-      transition: var(--transition);
       color: #fff;
     }
 
     .copy-btn.copied {
       background: #b7e3c0;
       color: #0d7a34;
-      font-weight: 600;
+      font-weight: 700;
     }
 
-    /* 상단 오른쪽 플랫폼 아이콘 */
-
-    .hero-platform-icons {
+    .market {
       display: flex;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .hero-platform-icons img {
+    .market img {
       width: 22px;
       height: 22px;
-      opacity: 0.88;
-      transition: 0.2s ease;
+      opacity: 0.85;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    .hero-platform-icons img:hover {
+    .market img:hover {
       opacity: 1;
       transform: translateY(-2px);
     }
 
-    /* ───── SNS 세로 아이콘 (테두리 없음) ───── */
+    /* ===== BOTTOM SNS BAR ===== */
 
-    .hero-sns {
+    .bottom-sns {
       position: absolute;
-      right: 42px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 3;
+
+      display: flex;
+      align-items: center;
+      gap: 22px;
+
+      padding: 12px 20px;
+      border-radius: 999px;
+
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
     }
 
-    .hero-sns-link img {
-      width: 36px;
-      height: 36px;
-      object-fit: contain;
-      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.55));
-      transition: 0.2s ease;
+    .bottom-sns a {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.9;
+      transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
-    .hero-sns-link img:hover {
+    .bottom-sns a:hover {
       transform: translateY(-3px);
-      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.75));
+      opacity: 1;
     }
 
+    .bottom-sns img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6));
+    }
+
+    /* ===== MOBILE ===== */
+
+    @media (max-width: 600px) {
+      .top-logo {
+        font-size: 28px;
+      }
+
+      .top-right {
+        font-size: 12px;
+        gap: 10px;
+      }
+
+      .bottom-sns {
+        gap: 18px;
+        padding: 10px 16px;
+      }
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- HERO -->
-  <section class="hero">
+<section class="hero">
 
-    <!-- 배경 GIF -->
-    <div class="hero-bg">
-      <img
-  src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/main/gif/gif%20copy.gif"
-  alt="background gif"
-/>
+  <!-- Background GIF -->
+  <div class="hero-bg">
+    <img
+      src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/main/gif/gif%20copy.gif"
+      alt="background gif"
+    />
+  </div>
 
-    </div>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div></div>
 
-    <div class="hero-inner">
-      <div class="hero-top">
+    <!-- Center Logo -->
+    <div class="top-logo">poit4poit</div>
 
-        <!-- 좌측 로고 -->
-        <div class="hero-logo">poit4poit</div>
+    <!-- Right -->
+    <div class="top-right">
+      <div class="email">
+        <a href="mailto:coraline0120@gmail.com">coraline0120@gmail.com</a>
+        <button id="copyBtn" class="copy-btn" onclick="copyEmail()">Copy</button>
+      </div>
 
-        <!-- 우측 이메일 + 아트스테이션 + 링크드인 -->
-        <div class="hero-right">
-
-          <div class="hero-email">
-            <a id="emailText" href="mailto:coraline0120@gmail.com">coraline0120@gmail.com</a>
-            <button id="copyBtn" class="copy-btn" onclick="copyEmail()">Copy</button>
-          </div>
-
-          <div class="hero-platform-icons">
-
-            <!-- ArtStation -->
-            <a href="https://www.artstation.com/kimchaeyeon" target="_blank">
-              <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/ArtStation_Logo_3.svg" alt="ArtStation" />
-            </a>
-
-            <!-- LinkedIn -->
-            <a href="https://www.linkedin.com/in/poit4poit" target="_blank">
-              <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/LinkedIn_Symbol_6.svg" alt="LinkedIn" />
-            </a>
-
-          </div>
-        </div>
-
+      <div class="market">
+        <a href="https://www.artstation.com/kimchaeyeon" target="_blank">
+          <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/ArtStation_Logo_3.svg" alt="ArtStation">
+        </a>
+        <a href="https://www.linkedin.com/in/poit4poit" target="_blank">
+          <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/LinkedIn_Symbol_6.svg" alt="LinkedIn">
+        </a>
       </div>
     </div>
+  </div>
 
-    <!-- 오른쪽 세로 SNS 아이콘 -->
-    <div class="hero-sns">
+  <!-- Bottom SNS -->
+  <nav class="bottom-sns">
+    <a href="https://www.instagram.com/poit4poit" target="_blank">
+      <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/Instagram_Symbol_3.svg">
+    </a>
+    <a href="https://www.tiktok.com/@poit4poit" target="_blank">
+      <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/TikTok_Logo.png?raw=true">
+    </a>
+    <a href="https://www.youtube.com/@poit4poit" target="_blank">
+      <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg">
+    </a>
+    <a href="#">
+      <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg">
+    </a>
+  </nav>
 
-      <!-- Instagram -->
-      <a class="hero-sns-link" href="https://www.instagram.com/poit4poit" target="_blank">
-        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/Instagram_Symbol_3.svg" alt="Instagram" />
-      </a>
+</section>
 
-      <!-- TikTok -->
-      <a class="hero-sns-link" href="https://www.tiktok.com/@poit4poit" target="_blank">
-        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/68afc15693f4a05c778c96f6515fee1b936924a6/logo/TikTok_Logo_Alternative_0.svg" alt="TikTok" />
-      </a>
-
-      <!-- YouTube -->
-      <a class="hero-sns-link" href="https://www.youtube.com/@poit4poit" target="_blank">
-        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg" alt="YouTube" />
-      </a>
-
-      <!-- TMM (임시) -->
-      <a class="hero-sns-link" href="#" target="_blank">
-        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg" alt="TMM" />
-      </a>
-
-    </div>
-
-  </section>
-
-  <!-- 이메일 복사 기능 -->
-  <script>
-    function copyEmail() {
-      const btn = document.getElementById("copyBtn");
-      const email = "coraline0120@gmail.com";
-
-      navigator.clipboard.writeText(email);
-
-      btn.textContent = "✔️";
-      btn.classList.add("copied");
-
-      setTimeout(() => {
-        btn.textContent = "Copy";
-        btn.classList.remove("copied");
-      }, 1200);
-    }
-  </script>
+<script>
+  function copyEmail() {
+    const btn = document.getElementById("copyBtn");
+    navigator.clipboard.writeText("coraline0120@gmail.com");
+    btn.textContent = "✔️";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      btn.textContent = "Copy";
+      btn.classList.remove("copied");
+    }, 1200);
+  }
+</script>
 
 </body>
 </html>
-
-
-
