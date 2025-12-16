@@ -5,7 +5,14 @@
   <title>poit4poit</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- HsSantoki20 -->
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/p4.png?raw=true">
+
+  <!-- Noto Sans + HsSantoki20 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
+
   <style>
     @font-face {
       font-family: 'HsSantoki20';
@@ -16,21 +23,15 @@
   </style>
 
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
-      height: 100%;
-    }
+    html, body { height: 100%; }
 
     body {
       background: #000;
       color: #fff;
-      overflow: hidden; /* 스크롤 완전 차단 */
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden;
+      font-family: "Noto Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -40,7 +41,7 @@
     .hero {
       position: relative;
       width: 100%;
-      height: 100svh; /* ✅ 모바일 실제 화면 기준 */
+      height: 100svh;
       overflow: hidden;
     }
 
@@ -54,7 +55,6 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
     }
 
     .hero::before {
@@ -68,41 +68,51 @@
     /* ===== TOP BAR ===== */
 
     .top-bar {
-      position: fixed; /* 모바일 안정 */
+      position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 5;
-      padding: 20px 28px;
+      padding: 18px 28px;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
+      pointer-events: none;
     }
 
+    /* 상단 중앙 로고 (이미지) */
     .top-logo {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'HsSantoki20', sans-serif;
-      font-size: 36px;
-      letter-spacing: 0.02em;
-      text-shadow: 0 4px 14px rgba(0,0,0,0.6);
-      user-select: none;
+      pointer-events: none;
     }
 
+    .top-logo img {
+      height: 42px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 4px 14px rgba(0,0,0,0.6));
+    }
+
+    /* 우측 이메일 + 마켓 */
     .top-right {
-      margin-left: auto;
+      position: fixed;
+      top: 18px;
+      right: 28px;
       display: flex;
       align-items: center;
       gap: 14px;
       font-size: 13px;
+      z-index: 6;
+      pointer-events: auto;
     }
 
     .email {
       display: flex;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
     }
+
+    .email a:hover { text-decoration: underline; }
 
     .copy-btn {
       padding: 3px 10px;
@@ -112,12 +122,14 @@
       border: 1px solid rgba(255,255,255,0.35);
       cursor: pointer;
       color: #fff;
+      transition: 0.2s ease;
     }
 
     .copy-btn.copied {
       background: #b7e3c0;
       color: #0d7a34;
       font-weight: 700;
+      border-color: transparent;
     }
 
     .market {
@@ -128,22 +140,67 @@
     .market img {
       width: 22px;
       height: 22px;
-      opacity: 0.85;
+      opacity: 0.88;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    /* ===== BOTTOM SNS (핵심 수정) ===== */
+    .market img:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+
+    /* ===== LEFT FIXED DATE ===== */
+
+    .hero-date {
+      position: fixed;
+      left: 18px;
+      bottom: calc(32px + env(safe-area-inset-bottom));
+      z-index: 6;
+      writing-mode: vertical-rl;
+      letter-spacing: 0.22em;
+      font-size: 12px;
+      opacity: 0.75;
+      pointer-events: none;
+      text-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    }
+
+    /* ===== CENTER HERO TITLE ===== */
+
+    .hero-title {
+      position: absolute;
+      top: 48%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .hero-title h1 {
+      font-family: 'HsSantoki20', sans-serif;
+      font-size: clamp(64px, 8vw, 140px);
+      margin-bottom: 12px;
+      text-shadow: 0 8px 30px rgba(0,0,0,0.45);
+    }
+
+    .hero-title p {
+      font-size: 14px;
+      letter-spacing: 0.4em;
+      opacity: 0.82;
+    }
+
+    /* ===== BOTTOM SNS BAR ===== */
 
     .bottom-sns {
-      position: fixed; /* ✅ absolute → fixed */
+      position: fixed;
       left: 50%;
       transform: translateX(-50%);
-      bottom: calc(24px + env(safe-area-inset-bottom)); /* ✅ iOS 대응 */
+      bottom: calc(24px + env(safe-area-inset-bottom));
       z-index: 6;
 
       display: flex;
       align-items: center;
       gap: 22px;
-
       padding: 12px 20px;
       border-radius: 999px;
 
@@ -160,6 +217,12 @@
       align-items: center;
       justify-content: center;
       opacity: 0.9;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .bottom-sns a:hover {
+      transform: translateY(-3px);
+      opacity: 1;
     }
 
     .bottom-sns img {
@@ -169,31 +232,42 @@
       filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6));
     }
 
-    @media (max-width: 600px) {
-      .top-logo { font-size: 28px; }
-      .top-right { font-size: 12px; }
+    /* ===== RESPONSIVE ===== */
+
+    @media (max-width: 768px) {
+      .top-logo img { height: 34px; }
+      .top-right { font-size: 12px; gap: 10px; }
+      .market img { width: 20px; height: 20px; }
+    }
+
+    @media (max-width: 420px) {
+      .bottom-sns { gap: 18px; padding: 10px 16px; }
+      .bottom-sns img { width: 24px; height: 24px; }
     }
   </style>
 </head>
 
 <body>
+  <section class="hero">
 
-<section class="hero">
+    <!-- Background GIF -->
+    <div class="hero-bg">
+      <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/main/gif/gif%20copy.gif" />
+    </div>
 
-  <div class="hero-bg">
-    <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/main/gif/gif%20copy.gif" />
-  </div>
+    <!-- Top Center Logo -->
+    <div class="top-bar">
+      <div class="top-logo">
+        <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/p4.png?raw=true" alt="poit4poit logo">
+      </div>
+    </div>
 
-  <div class="top-bar">
-    <div></div>
-    <div class="top-logo">poit4poit</div>
-
+    <!-- Top Right -->
     <div class="top-right">
       <div class="email">
         <a href="mailto:coraline0120@gmail.com">coraline0120@gmail.com</a>
         <button id="copyBtn" class="copy-btn" onclick="copyEmail()">Copy</button>
       </div>
-
       <div class="market">
         <a href="https://www.artstation.com/kimchaeyeon" target="_blank">
           <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/ArtStation_Logo_3.svg">
@@ -203,37 +277,45 @@
         </a>
       </div>
     </div>
-  </div>
 
-  <nav class="bottom-sns">
-    <a href="https://www.instagram.com/poit4poit" target="_blank">
-      <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/Instagram_Symbol_3.svg">
-    </a>
-    <a href="https://www.tiktok.com/@poit4poit" target="_blank">
-      <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/TikTok_Logo.png?raw=true">
-    </a>
-    <a href="https://www.youtube.com/@poit4poit" target="_blank">
-      <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg">
-    </a>
-    <a href="#">
-      <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg">
-    </a>
-  </nav>
+    <!-- Center Title -->
+    <div class="hero-title">
+      <h1>poit4poit</h1>
+      <p>COSMIC&nbsp;&nbsp;MEMORIES</p>
+    </div>
 
-</section>
+    <!-- Left Fixed Date -->
+    <div class="hero-date">2026.02.01</div>
 
-<script>
-  function copyEmail() {
-    const btn = document.getElementById("copyBtn");
-    navigator.clipboard.writeText("coraline0120@gmail.com");
-    btn.textContent = "✔️";
-    btn.classList.add("copied");
-    setTimeout(() => {
-      btn.textContent = "Copy";
-      btn.classList.remove("copied");
-    }, 1200);
-  }
-</script>
+    <!-- Bottom SNS -->
+    <nav class="bottom-sns">
+      <a href="https://www.instagram.com/poit4poit" target="_blank">
+        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/Instagram_Symbol_3.svg">
+      </a>
+      <a href="https://www.tiktok.com/@poit4poit" target="_blank">
+        <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/TikTok_Logo.png?raw=true">
+      </a>
+      <a href="https://www.youtube.com/@poit4poit" target="_blank">
+        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg">
+      </a>
+      <a href="#">
+        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/fe5d16a847794ace929e04fbfb8c79d99419146f/logo/shopping-icon.svg">
+      </a>
+    </nav>
 
+  </section>
+
+  <script>
+    function copyEmail() {
+      const btn = document.getElementById("copyBtn");
+      navigator.clipboard.writeText("coraline0120@gmail.com");
+      btn.textContent = "✔️";
+      btn.classList.add("copied");
+      setTimeout(() => {
+        btn.textContent = "Copy";
+        btn.classList.remove("copied");
+      }, 1200);
+    }
+  </script>
 </body>
 </html>
