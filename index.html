@@ -8,7 +8,12 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/p4.png?raw=true">
 
-  <!-- ✅ Font: HsSantoki20 (ALL) -->
+  <!-- Noto Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+  <!-- Title font (ONLY) -->
   <style>
     @font-face {
       font-family: 'HsSantoki20';
@@ -16,7 +21,9 @@
       font-weight: normal;
       font-display: swap;
     }
+  </style>
 
+  <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
 
@@ -30,6 +37,11 @@
       --glass-shadow: 0 18px 50px rgba(0,0,0,0.35);
       --glass-blur: 14px;
 
+      /* label colors (animated) */
+      --label-home: rgba(245,245,249,0.95); /* ✅ 메인일 때: 흰색 계열 */
+      --label-profile: rgba(245,245,249,0.95);
+      --label-profile-mode: #3b332a;         /* ✅ 프로필로 들어가면 바뀌는 색(김채연 톤) */
+
       --text-dark: #1b1b1b;
 
       /* profile theme */
@@ -39,10 +51,7 @@
       --p-muted: #7b808a;
       --p-blue: #2b78ff;
 
-      /* ✅ HOME/PROFILE label color = Kim Chae-yeon name color */
-      --label-kim: #3b332a;
-
-      /* ✅ switch sizes (short like common switch) */
+      /* switch sizes */
       --switch-w: 86px;
       --switch-h: 46px;
       --switch-pad: 6px;
@@ -52,7 +61,7 @@
     body{
       background:#000;
       color:#fff;
-      font-family:'HsSantoki20', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family:"Noto Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       overflow: hidden;
     }
 
@@ -96,11 +105,11 @@
       z-index:1;
     }
 
+    /* title: fade-in */
     .hero-title{
       position:absolute;
       top:48%;
       left:50%;
-      transform: translate(-50%, -50%);
       z-index:2;
       text-align:center;
       pointer-events:none;
@@ -120,16 +129,19 @@
     }
 
     .hero-title h1{
+      font-family:'HsSantoki20', sans-serif; /* ✅ 타이틀만 */
       font-size: clamp(64px, 8vw, 140px);
       margin-bottom: 12px;
       text-shadow: 0 8px 30px rgba(0,0,0,0.45);
       font-weight: normal;
     }
     .hero-title p{
+      font-family:"Noto Sans", sans-serif;
       font-size: 14px;
       letter-spacing: 0.4em;
       opacity: 0.82;
       text-shadow: 0 8px 22px rgba(0,0,0,0.4);
+      font-weight: 600;
     }
 
     /* left date */
@@ -144,6 +156,8 @@
       opacity: 0.75;
       pointer-events: none;
       text-shadow: 0 6px 18px rgba(0,0,0,0.45);
+      font-family:"Noto Sans", sans-serif;
+      font-weight: 600;
     }
 
     /* ===== PROFILE ===== */
@@ -177,6 +191,7 @@
       box-shadow: 0 16px 46px rgba(0,0,0,0.10);
       padding: 26px 26px 22px;
       text-align: center;
+      font-family:"Noto Sans", sans-serif;
     }
 
     .avatar{
@@ -193,15 +208,16 @@
 
     .p-name{
       font-size: clamp(30px, 3.4vw, 44px);
-      font-weight: normal;
+      font-weight: 900;
       letter-spacing: -0.02em;
       margin-bottom: 6px;
-      color: var(--label-kim);
+      color: var(--label-profile-mode);
     }
     .p-role{
       font-size: 16px;
       color: var(--p-muted);
       margin-bottom: 10px;
+      font-weight: 700;
     }
     .p-loc{
       display:flex;
@@ -211,6 +227,7 @@
       color: var(--p-muted);
       font-size: 14px;
       margin-bottom: 10px;
+      font-weight: 600;
     }
 
     .p-contact{
@@ -229,6 +246,7 @@
       font-size: 15px;
       cursor: pointer;
       user-select: none;
+      font-weight: 800;
     }
     .p-email:hover{ text-decoration: underline; }
 
@@ -242,7 +260,8 @@
       cursor: pointer;
       transition: 0.2s ease;
       user-select: none;
-      font-family:'HsSantoki20', sans-serif;
+      font-family:"Noto Sans", sans-serif;
+      font-weight: 900;
     }
     .copy-btn:hover{ transform: translateY(-1px); background:#eef3ff; }
     .copy-btn.copied{
@@ -271,7 +290,6 @@
     .p-icons a:hover{ transform: translateY(-2px); background:#e9ecf2; }
     .p-icons img{ width: 18px; height: 18px; object-fit: contain; display:block; opacity: 0.9; }
 
-    /* ✅ Summary removed: Skills only card */
     .sections{
       width: min(860px, 94vw);
       margin: 0 auto;
@@ -284,11 +302,12 @@
       gap: 14px;
       overflow: hidden;
       justify-self: center;
+      font-family:"Noto Sans", sans-serif;
     }
 
     .sec-title{
       font-size: 22px;
-      font-weight: normal;
+      font-weight: 900;
       letter-spacing: -0.02em;
       margin-bottom: 10px;
       color: #222;
@@ -307,6 +326,7 @@
       font-size: 12px;
       letter-spacing: 0.02em;
       color:#2a2f36;
+      font-weight: 900;
     }
 
     /* ===== FIXED UI ===== */
@@ -325,7 +345,6 @@
       opacity: 0.95;
     }
 
-    /* ✅ switch + labels */
     .top-center-switch{
       position: fixed;
       top: var(--ui-pad-y);
@@ -336,15 +355,22 @@
       align-items:center;
       gap: 10px;
       user-select:none;
+      font-family:"Noto Sans", sans-serif;
     }
 
+    /* ✅ label color transitions “샥” */
     .switch-label{
       font-size: 12px;
       letter-spacing: 0.18em;
-      font-weight: normal;
-      transition: opacity .2s ease, color .2s ease;
+      font-weight: 800;
+      transition: opacity .2s ease, color .22s ease;
       text-shadow: 0 6px 18px rgba(0,0,0,0.18);
-      color: var(--label-kim); /* ✅ */
+      color: var(--label-home);
+    }
+    /* ✅ profile mode이면 라벨 색 바뀜 */
+    .top-center-switch.profile-colors .switch-label{
+      color: var(--label-profile-mode);
+      text-shadow: none;
     }
 
     .switch-pill{
@@ -391,6 +417,7 @@
       font-size: 16px;
       line-height: 1;
       transform: translateY(0.5px);
+      font-family:"Noto Sans", sans-serif;
     }
 
     .top-center-switch[data-mode="profile"] .switch-thumb{
@@ -421,6 +448,7 @@
       backdrop-filter: blur(var(--glass-blur));
       -webkit-backdrop-filter: blur(var(--glass-blur));
       box-shadow: var(--glass-shadow);
+      font-family:"Noto Sans", sans-serif;
     }
     .bottom-sns a{
       width:34px; height:34px;
@@ -444,7 +472,7 @@
         --ui-pad-x: 14px;
         --ui-pad-y: 10px;
 
-        --switch-w: 82px;
+        --switch-w: 84px;
         --switch-h: 44px;
         --switch-pad: 6px;
         --thumb: 32px;
@@ -469,9 +497,7 @@
     }
 
     @media (max-width: 420px){
-      :root{
-        --switch-w: 78px;
-      }
+      :root{ --switch-w: 80px; }
       .sec-title{ font-size: 20px; }
       .chip{ font-size: 11px; padding: 6px 9px; }
       .switch-label{ font-size: 11px; }
@@ -512,14 +538,14 @@
           </div>
 
           <div class="p-contact">
-            <span class="p-email" id="emailClickable" title="Click to copy">
+            <span class="p-email" id="emailClickable" title="Click to copy">a
               coraline0120@gmail.com
             </span>
             <button class="copy-btn" id="copyBtnProfile" type="button">Copy</button>
           </div>
 
           <div class="p-icons">
-            <a href="https://www.artstation.com/kimchaeyeon" target="_blank" aria-label="ArtStation">
+            <a href="https://www.artstation.com/kimchayeon" target="_blank" aria-label="ArtStation">
               <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/ArtStation_Logo_3.svg" alt="ArtStation">
             </a>
             <a href="https://www.linkedin.com/in/poit4poit" target="_blank" aria-label="LinkedIn">
@@ -550,7 +576,7 @@
       <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/p4.png?raw=true" alt="p4 logo">
     </a>
 
-    <!-- iOS Switch -->
+    <!-- Switch -->
     <div class="top-center-switch" id="modeSwitch" data-mode="home" aria-label="mode switch">
       <span class="switch-label label-home">HOME</span>
 
@@ -602,6 +628,10 @@
       profileScreen.classList.toggle("active", isProfile);
       modeSwitch.dataset.mode = isProfile ? "profile" : "home";
 
+      // ✅ label color “샥” (class toggle)
+      modeSwitch.classList.toggle("profile-colors", isProfile);
+
+      // thumb content: HOME=logo, PROFILE=👤
       if (isProfile){
         thumbLogo.style.display = "none";
         thumbEmoji.style.display = "inline";
@@ -610,6 +640,7 @@
         thumbEmoji.style.display = "none";
       }
 
+      // re-trigger hero fade-in when returning home
       if (!isProfile){
         const title = document.querySelector(".hero-title");
         title.style.animation = "none";
