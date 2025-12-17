@@ -37,10 +37,9 @@
       --glass-shadow: 0 18px 50px rgba(0,0,0,0.35);
       --glass-blur: 14px;
 
-      /* label colors (animated) */
-      --label-home: rgba(245,245,249,0.95); /* ✅ 메인일 때: 흰색 계열 */
-      --label-profile: rgba(245,245,249,0.95);
-      --label-profile-mode: #3b332a;         /* ✅ 프로필로 들어가면 바뀌는 색(김채연 톤) */
+      /* label colors */
+      --label-home: rgba(245,245,249,0.95);
+      --label-profile-mode: #3b332a;
 
       --text-dark: #1b1b1b;
 
@@ -49,7 +48,6 @@
       --p-card: #ffffff;
       --p-line: #e8eaf0;
       --p-muted: #7b808a;
-      --p-blue: #2b78ff;
 
       /* switch sizes */
       --switch-w: 86px;
@@ -62,7 +60,10 @@
       background:#000;
       color:#fff;
       font-family:"Noto Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      overflow: hidden;
+      overflow: hidden; /* ✅ 기본은 스크롤 잠금 */
+    }
+    body.profile-scroll{
+      overflow: auto;   /* ✅ 프로필일 때만 스크롤 허용 */
     }
 
     a{ color: inherit; text-decoration: none; }
@@ -93,11 +94,7 @@
     /* ===== HERO ===== */
     .hero{ overflow: hidden; }
     .hero-bg{ position:absolute; inset:0; z-index:0; }
-    .hero-bg img{
-      width:100%; height:100%;
-      object-fit: cover;
-      display:block;
-    }
+    .hero-bg img{ width:100%; height:100%; object-fit: cover; display:block; }
     .hero::before{
       content:"";
       position:absolute; inset:0;
@@ -105,7 +102,6 @@
       z-index:1;
     }
 
-    /* title: fade-in */
     .hero-title{
       position:absolute;
       top:48%;
@@ -129,7 +125,7 @@
     }
 
     .hero-title h1{
-      font-family:'HsSantoki20', sans-serif; /* ✅ 타이틀만 */
+      font-family:'HsSantoki20', sans-serif;
       font-size: clamp(64px, 8vw, 140px);
       margin-bottom: 12px;
       text-shadow: 0 8px 30px rgba(0,0,0,0.45);
@@ -156,7 +152,6 @@
       opacity: 0.75;
       pointer-events: none;
       text-shadow: 0 6px 18px rgba(0,0,0,0.45);
-      font-family:"Noto Sans", sans-serif;
       font-weight: 600;
     }
 
@@ -164,18 +159,19 @@
     .profile{
       background: var(--p-bg);
       color: var(--text-dark);
-      overflow: hidden;
+      overflow: visible;
     }
 
+    /* ✅ 프로필 화면은 내용이 길어질 수 있으니, 내부는 자연스럽게 늘어나도록 */
     .profile-wrap{
       position: relative;
-      height: 100%;
+      min-height: 100svh;
       display: grid;
       grid-template-rows: auto auto;
       padding:
         calc(var(--ui-pad-y) + var(--switch-h) + 26px)
         18px
-        calc(78px + env(safe-area-inset-bottom));
+        calc(92px + env(safe-area-inset-bottom));
       gap: 14px;
 
       justify-items: center;
@@ -191,7 +187,6 @@
       box-shadow: 0 16px 46px rgba(0,0,0,0.10);
       padding: 26px 26px 22px;
       text-align: center;
-      font-family:"Noto Sans", sans-serif;
     }
 
     .avatar{
@@ -238,17 +233,17 @@
       margin-bottom: 12px;
       flex-wrap: wrap;
     }
+
     .p-email{
       display:inline-flex;
       align-items:center;
       gap: 6px;
-      color: var(--p-blue);
+      color: #2a2f36;
       font-size: 15px;
-      cursor: pointer;
-      user-select: none;
-      font-weight: 800;
+      cursor: default;
+      user-select: text;
+      font-weight: 700;
     }
-    .p-email:hover{ text-decoration: underline; }
 
     .copy-btn{
       padding: 6px 12px;
@@ -260,7 +255,6 @@
       cursor: pointer;
       transition: 0.2s ease;
       user-select: none;
-      font-family:"Noto Sans", sans-serif;
       font-weight: 900;
     }
     .copy-btn:hover{ transform: translateY(-1px); background:#eef3ff; }
@@ -302,7 +296,6 @@
       gap: 14px;
       overflow: hidden;
       justify-self: center;
-      font-family:"Noto Sans", sans-serif;
     }
 
     .sec-title{
@@ -355,10 +348,9 @@
       align-items:center;
       gap: 10px;
       user-select:none;
-      font-family:"Noto Sans", sans-serif;
     }
 
-    /* ✅ label color transitions “샥” */
+    /* ✅ 라벨 클릭 가능 */
     .switch-label{
       font-size: 12px;
       letter-spacing: 0.18em;
@@ -366,8 +358,9 @@
       transition: opacity .2s ease, color .22s ease;
       text-shadow: 0 6px 18px rgba(0,0,0,0.18);
       color: var(--label-home);
+      cursor: pointer;
+      padding: 6px 4px;
     }
-    /* ✅ profile mode이면 라벨 색 바뀜 */
     .top-center-switch.profile-colors .switch-label{
       color: var(--label-profile-mode);
       text-shadow: none;
@@ -388,6 +381,7 @@
       transition: 0.2s ease;
       appearance: none;
       outline: none;
+      flex: 0 0 auto;
     }
 
     .switch-thumb{
@@ -417,7 +411,6 @@
       font-size: 16px;
       line-height: 1;
       transform: translateY(0.5px);
-      font-family:"Noto Sans", sans-serif;
     }
 
     .top-center-switch[data-mode="profile"] .switch-thumb{
@@ -448,7 +441,6 @@
       backdrop-filter: blur(var(--glass-blur));
       -webkit-backdrop-filter: blur(var(--glass-blur));
       box-shadow: var(--glass-shadow);
-      font-family:"Noto Sans", sans-serif;
     }
     .bottom-sns a{
       width:34px; height:34px;
@@ -538,9 +530,7 @@
           </div>
 
           <div class="p-contact">
-            <span class="p-email" id="emailClickable" title="Click to copy">a
-              coraline0120@gmail.com
-            </span>
+            <span class="p-email" id="emailTextPlain">coraline0120@gmail.com</span>
             <button class="copy-btn" id="copyBtnProfile" type="button">Copy</button>
           </div>
 
@@ -564,6 +554,10 @@
               <span class="chip">PBR TEXTURING</span>
               <span class="chip">HARD SURFACE</span>
               <span class="chip">LOOKDEV</span>
+              <span class="chip">RIGGING</span>
+              <span class="chip">UNITY / UE</span>
+              <span class="chip">ZBRUSH</span>
+              <span class="chip">SUBSTANCE</span>
             </div>
           </div>
         </div>
@@ -576,9 +570,9 @@
       <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/p4.png?raw=true" alt="p4 logo">
     </a>
 
-    <!-- Switch -->
+    <!-- Switch (labels clickable) -->
     <div class="top-center-switch" id="modeSwitch" data-mode="home" aria-label="mode switch">
-      <span class="switch-label label-home">HOME</span>
+      <span class="switch-label label-home" id="labelHome">HOME</span>
 
       <button class="switch-pill" id="switchPill" type="button" aria-label="toggle">
         <span class="switch-thumb" aria-hidden="true">
@@ -589,7 +583,7 @@
         </span>
       </button>
 
-      <span class="switch-label label-profile">PROFILE</span>
+      <span class="switch-label label-profile" id="labelProfile">PROFILE</span>
     </div>
 
     <!-- Left Date -->
@@ -622,14 +616,20 @@
     const thumbLogo = document.getElementById("thumbLogo");
     const thumbEmoji = document.getElementById("thumbEmoji");
 
+    const labelHome = document.getElementById("labelHome");
+    const labelProfile = document.getElementById("labelProfile");
+
     function setMode(mode){
       const isProfile = (mode === "profile");
+
       homeScreen.classList.toggle("active", !isProfile);
       profileScreen.classList.toggle("active", isProfile);
-      modeSwitch.dataset.mode = isProfile ? "profile" : "home";
 
-      // ✅ label color “샥” (class toggle)
+      modeSwitch.dataset.mode = isProfile ? "profile" : "home";
       modeSwitch.classList.toggle("profile-colors", isProfile);
+
+      // ✅ 스크롤: 프로필에서만 허용
+      document.body.classList.toggle("profile-scroll", isProfile);
 
       // thumb content: HOME=logo, PROFILE=👤
       if (isProfile){
@@ -646,22 +646,30 @@
         title.style.animation = "none";
         void title.offsetWidth;
         title.style.animation = "";
+        window.scrollTo(0, 0); // 혹시 프로필에서 스크롤했으면 복귀
+      } else {
+        window.scrollTo(0, 0);
       }
     }
 
+    // ✅ pill 클릭
     pill.addEventListener("click", () => {
       const nowMode = modeSwitch.dataset.mode;
       setMode(nowMode === "home" ? "profile" : "home");
     });
 
+    // ✅ HOME/PROFILE 글자 클릭
+    labelHome.addEventListener("click", () => setMode("home"));
+    labelProfile.addEventListener("click", () => setMode("profile"));
+
+    // logo 클릭 = home
     document.getElementById("homeLogo").addEventListener("click", (e) => {
       e.preventDefault();
       setMode("home");
     });
 
-    /* profile email copy */
+    /* copy only (button) */
     const email = "coraline0120@gmail.com";
-    const emailClickable = document.getElementById("emailClickable");
     const copyBtnProfile = document.getElementById("copyBtnProfile");
 
     function flashCopied(btn){
@@ -687,9 +695,9 @@
       flashCopied(copyBtnProfile);
     }
 
-    emailClickable.addEventListener("click", copyEmail);
     copyBtnProfile.addEventListener("click", copyEmail);
 
+    // init
     setMode("home");
   </script>
 </body>
