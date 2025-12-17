@@ -8,11 +8,7 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/p4.png?raw=true">
 
-  <!-- Noto Sans + HsSantoki20 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
-
+  <!-- ✅ Font: HsSantoki20 (ALL) -->
   <style>
     @font-face {
       font-family: 'HsSantoki20';
@@ -20,9 +16,7 @@
       font-weight: normal;
       font-display: swap;
     }
-  </style>
 
-  <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
 
@@ -30,9 +24,11 @@
       --ui-pad-x: 18px;
       --ui-pad-y: 12px;
 
-      --glass: rgba(0,0,0,0.35);
-      --stroke: rgba(255,255,255,0.18);
-      --shadow: 0 14px 34px rgba(0,0,0,0.55);
+      /* matte liquid-glass */
+      --glass-bg: rgba(255,255,255,0.10);
+      --glass-stroke: rgba(255,255,255,0.18);
+      --glass-shadow: 0 18px 50px rgba(0,0,0,0.35);
+      --glass-blur: 14px;
 
       --text-dark: #1b1b1b;
 
@@ -43,21 +39,25 @@
       --p-muted: #7b808a;
       --p-blue: #2b78ff;
 
-      /* depth strength */
-      --depth-bg: 18px;   /* 배경 이동량 */
-      --depth-title: 34px;/* 타이틀 이동량 */
+      /* ✅ HOME/PROFILE label color = Kim Chae-yeon name color */
+      --label-kim: #3b332a;
+
+      /* ✅ switch sizes (short like common switch) */
+      --switch-w: 86px;
+      --switch-h: 46px;
+      --switch-pad: 6px;
+      --thumb: 34px;
     }
 
     body{
       background:#000;
       color:#fff;
-      font-family:"Noto Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      overflow: hidden; /* ✅ 스크롤 없이 스위치로 화면 전환 */
+      font-family:'HsSantoki20', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden;
     }
 
     a{ color: inherit; text-decoration: none; }
 
-    /* ===== APP / SCREENS ===== */
     .app{
       position: relative;
       width: 100%;
@@ -81,55 +81,45 @@
       transform: translateY(0);
     }
 
-    /* ===== HERO + DEPTH ===== */
-    .hero{
-      overflow: hidden;
-      perspective: 900px; /* 뎁스 느낌 */
-    }
-
-    /* 배경 */
-    .hero-bg{
-      position:absolute;
-      inset:0;
-      z-index:0;
-      will-change: transform;
-      transform: translate3d(var(--bg-x, 0px), var(--bg-y, 0px), 0) scale(1.04);
-      transition: transform 0.08s linear;
-    }
+    /* ===== HERO ===== */
+    .hero{ overflow: hidden; }
+    .hero-bg{ position:absolute; inset:0; z-index:0; }
     .hero-bg img{
       width:100%; height:100%;
       object-fit: cover;
       display:block;
     }
-
-    /* 어둡게 오버레이 (오버레이도 살짝 같이 움직이면 더 자연스러움) */
     .hero::before{
       content:"";
       position:absolute; inset:0;
       background: rgba(0,0,0,0.35);
       z-index:1;
-      will-change: transform;
-      transform: translate3d(calc(var(--bg-x, 0px) * 0.2), calc(var(--bg-y, 0px) * 0.2), 0);
-      transition: transform 0.08s linear;
     }
 
-    /* 타이틀 */
     .hero-title{
       position:absolute;
       top:48%;
       left:50%;
+      transform: translate(-50%, -50%);
       z-index:2;
       text-align:center;
       pointer-events:none;
-      will-change: transform;
-      transform:
-        translate3d(calc(-50% + var(--title-x, 0px)), calc(-50% + var(--title-y, 0px)), 0)
-        translateZ(18px); /* ✅ 글자와 배경의 거리(뎁스) */
-      transition: transform 0.08s linear;
-      filter: drop-shadow(0 18px 30px rgba(0,0,0,0.35));
+
+      opacity: 0;
+      filter: blur(6px);
+      transform: translate(-50%, -48%);
+      animation: fadeUp 1.0s ease forwards;
+      animation-delay: .35s;
     }
+    @keyframes fadeUp{
+      to{
+        opacity: 1;
+        filter: blur(0);
+        transform: translate(-50%, -50%);
+      }
+    }
+
     .hero-title h1{
-      font-family:'HsSantoki20', sans-serif;
       font-size: clamp(64px, 8vw, 140px);
       margin-bottom: 12px;
       text-shadow: 0 8px 30px rgba(0,0,0,0.45);
@@ -142,11 +132,11 @@
       text-shadow: 0 8px 22px rgba(0,0,0,0.4);
     }
 
-    /* 왼쪽 세로 날짜 */
+    /* left date */
     .left-date{
       position: fixed;
       left: 18px;
-      bottom: calc(32px + env(safe-area-inset-bottom));
+      bottom: calc(28px + env(safe-area-inset-bottom));
       z-index: 95;
       writing-mode: vertical-rl;
       letter-spacing: 0.22em;
@@ -167,9 +157,15 @@
       position: relative;
       height: 100%;
       display: grid;
-      grid-template-rows: auto 1fr;
-      padding: 72px 18px 96px;
+      grid-template-rows: auto auto;
+      padding:
+        calc(var(--ui-pad-y) + var(--switch-h) + 26px)
+        18px
+        calc(78px + env(safe-area-inset-bottom));
       gap: 14px;
+
+      justify-items: center;
+      align-content: start;
     }
 
     .profile-hero{
@@ -179,7 +175,7 @@
       border: 1px solid var(--p-line);
       border-radius: 18px;
       box-shadow: 0 16px 46px rgba(0,0,0,0.10);
-      padding: 26px 26px 20px;
+      padding: 26px 26px 22px;
       text-align: center;
     }
 
@@ -197,15 +193,15 @@
 
     .p-name{
       font-size: clamp(30px, 3.4vw, 44px);
-      font-weight: 900;
+      font-weight: normal;
       letter-spacing: -0.02em;
       margin-bottom: 6px;
+      color: var(--label-kim);
     }
     .p-role{
       font-size: 16px;
       color: var(--p-muted);
       margin-bottom: 10px;
-      font-weight: 600;
     }
     .p-loc{
       display:flex;
@@ -217,7 +213,6 @@
       margin-bottom: 10px;
     }
 
-    /* 이메일 복사 */
     .p-contact{
       display:flex;
       align-items:center;
@@ -232,7 +227,6 @@
       gap: 6px;
       color: var(--p-blue);
       font-size: 15px;
-      font-weight: 700;
       cursor: pointer;
       user-select: none;
     }
@@ -241,7 +235,6 @@
     .copy-btn{
       padding: 6px 12px;
       font-size: 12px;
-      font-weight: 900;
       border-radius: 999px;
       border: 1px solid #dde2ec;
       background: #f3f6fb;
@@ -249,6 +242,7 @@
       cursor: pointer;
       transition: 0.2s ease;
       user-select: none;
+      font-family:'HsSantoki20', sans-serif;
     }
     .copy-btn:hover{ transform: translateY(-1px); background:#eef3ff; }
     .copy-btn.copied{
@@ -277,6 +271,7 @@
     .p-icons a:hover{ transform: translateY(-2px); background:#e9ecf2; }
     .p-icons img{ width: 18px; height: 18px; object-fit: contain; display:block; opacity: 0.9; }
 
+    /* ✅ Summary removed: Skills only card */
     .sections{
       width: min(860px, 94vw);
       margin: 0 auto;
@@ -288,31 +283,16 @@
       display: grid;
       gap: 14px;
       overflow: hidden;
-    }
-
-    .sec{
-      padding: 6px 0 2px;
-      border-top: 1px solid var(--p-line);
-    }
-    .sec:first-child{
-      border-top: 0;
-      padding-top: 0;
+      justify-self: center;
     }
 
     .sec-title{
       font-size: 22px;
-      font-weight: 900;
+      font-weight: normal;
       letter-spacing: -0.02em;
       margin-bottom: 10px;
       color: #222;
     }
-
-    .summary-grid{
-      display: grid;
-      gap: 8px;
-      font-size: 14px;
-    }
-    .summary-grid .sub{ color: var(--p-muted); font-weight: 700; }
 
     .chips{
       display:flex;
@@ -325,14 +305,11 @@
       padding: 6px 10px;
       border-radius: 8px;
       font-size: 12px;
-      font-weight: 900;
       letter-spacing: 0.02em;
       color:#2a2f36;
     }
 
     /* ===== FIXED UI ===== */
-
-    /* 좌측 상단 로고 */
     .top-left-logo{
       position: fixed;
       top: var(--ui-pad-y);
@@ -348,7 +325,7 @@
       opacity: 0.95;
     }
 
-    /* 중앙 상단 iOS 스위치 (가로 더 줄임) */
+    /* ✅ switch + labels */
     .top-center-switch{
       position: fixed;
       top: var(--ui-pad-y);
@@ -364,56 +341,68 @@
     .switch-label{
       font-size: 12px;
       letter-spacing: 0.18em;
-      opacity: 0.82;
-      text-shadow: 0 6px 18px rgba(0,0,0,0.35);
-      transition: opacity .2s ease;
-      font-weight: 900;
+      font-weight: normal;
+      transition: opacity .2s ease, color .2s ease;
+      text-shadow: 0 6px 18px rgba(0,0,0,0.18);
+      color: var(--label-kim); /* ✅ */
     }
 
     .switch-pill{
       position: relative;
-      width: 148px; /* ✅ 더 줄임 */
-      height: 56px;
+      width: var(--switch-w);
+      height: var(--switch-h);
       border-radius: 999px;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.26);
-      backdrop-filter: blur(14px);
-      box-shadow: 0 22px 50px rgba(0,0,0,0.35);
-      padding: 8px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-stroke);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      box-shadow: var(--glass-shadow);
+      padding: var(--switch-pad);
       cursor: pointer;
       transition: 0.2s ease;
+      appearance: none;
+      outline: none;
     }
 
     .switch-thumb{
       position: absolute;
-      top: 8px;
-      left: 8px;
-      width: 40px;
-      height: 40px;
+      top: var(--switch-pad);
+      left: var(--switch-pad);
+      width: var(--thumb);
+      height: var(--thumb);
       border-radius: 999px;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 18px 34px rgba(0,0,0,0.28);
+      background: rgba(255,255,255,0.82);
+      box-shadow: 0 18px 34px rgba(0,0,0,0.22);
       transition: transform .25s ease;
+
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size: 18px;
+    }
+
+    .thumb-logo{
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      display:block;
+      opacity: 0.95;
+    }
+    .switch-emoji{
+      font-size: 16px;
       line-height: 1;
+      transform: translateY(0.5px);
     }
 
     .top-center-switch[data-mode="profile"] .switch-thumb{
-      transform: translateX(92px); /* ✅ 폭 줄인 만큼 이동량도 조정 */
+      transform: translateX(calc(var(--switch-w) - (var(--switch-pad) * 2) - var(--thumb)));
     }
-
-    .top-center-switch[data-mode="home"] .switch-thumb::after{ content:"🏠"; }
-    .top-center-switch[data-mode="profile"] .switch-thumb::after{ content:"👤"; }
 
     .top-center-switch[data-mode="home"] .label-home{ opacity: 1; }
     .top-center-switch[data-mode="home"] .label-profile{ opacity: 0.55; }
     .top-center-switch[data-mode="profile"] .label-home{ opacity: 0.55; }
     .top-center-switch[data-mode="profile"] .label-profile{ opacity: 1; }
 
-    /* 하단 SNS 바 */
+    /* bottom sns */
     .bottom-sns{
       position: fixed;
       left: 50%;
@@ -427,10 +416,11 @@
       padding:12px 20px;
       border-radius:999px;
 
-      background: var(--glass);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--stroke);
-      box-shadow: var(--shadow);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-stroke);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      box-shadow: var(--glass-shadow);
     }
     .bottom-sns a{
       width:34px; height:34px;
@@ -444,40 +434,44 @@
     .bottom-sns img{
       width:26px; height:26px;
       object-fit: contain;
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6));
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.55));
       display:block;
     }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px){
-      :root{ --ui-pad-x: 14px; --ui-pad-y: 10px; }
+      :root{
+        --ui-pad-x: 14px;
+        --ui-pad-y: 10px;
+
+        --switch-w: 82px;
+        --switch-h: 44px;
+        --switch-pad: 6px;
+        --thumb: 32px;
+
+        --glass-bg: rgba(255,255,255,0.09);
+        --glass-stroke: rgba(255,255,255,0.16);
+        --glass-blur: 14px;
+      }
 
       .top-left-logo img{ height: 32px; }
 
-      .switch-pill{
-        width: 134px;
-        height: 52px;
-        padding: 7px;
-      }
-      .switch-thumb{
-        width: 36px; height: 36px;
-        top: 7px; left: 7px;
-        font-size: 16px;
-      }
-      .top-center-switch[data-mode="profile"] .switch-thumb{
-        transform: translateX(84px);
-      }
-
       .profile-wrap{
-        padding: 64px 14px 88px;
+        padding:
+          calc(var(--ui-pad-y) + var(--switch-h) + 24px)
+          14px
+          calc(72px + env(safe-area-inset-bottom));
       }
-      .avatar{ width: 124px; height: 124px; }
 
+      .avatar{ width: 124px; height: 124px; }
       .bottom-sns{ gap:18px; padding:10px 16px; }
       .bottom-sns img{ width:24px; height:24px; }
     }
 
     @media (max-width: 420px){
+      :root{
+        --switch-w: 78px;
+      }
       .sec-title{ font-size: 20px; }
       .chip{ font-size: 11px; padding: 6px 9px; }
       .switch-label{ font-size: 11px; }
@@ -488,23 +482,22 @@
 <body>
   <div class="app" id="appRoot">
 
-    <!-- SCREEN: HOME -->
+    <!-- HOME -->
     <section class="screen hero active" id="screen-home" aria-label="home">
-      <div class="hero-bg" id="heroBg">
+      <div class="hero-bg">
         <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/main/gif/gif%20copy.gif" alt="bg gif">
       </div>
 
-      <div class="hero-title" id="heroTitle" aria-hidden="true">
+      <div class="hero-title" aria-hidden="true">
         <h1>poit4poit</h1>
         <p>COSMIC&nbsp;&nbsp;MEMORIES</p>
       </div>
     </section>
 
-    <!-- SCREEN: PROFILE -->
+    <!-- PROFILE -->
     <section class="screen profile" id="screen-profile" aria-label="profile">
       <div class="profile-wrap">
 
-        <!-- 큰 프로필 카드 -->
         <div class="profile-hero">
           <div class="avatar">
             <img src="https://cdna.artstation.com/p/assets/images/images/092/234/154/4k/chaeyeon-saki-kimchaeyeon.webp?1759082382" alt="profile">
@@ -515,10 +508,9 @@
 
           <div class="p-loc">
             <span>📍</span>
-            <span>Seoul, South Korea</span>
+            <span>Busan, South Korea</span>
           </div>
 
-          <!-- ✅ 클릭 복사 + Copy 유도 -->
           <div class="p-contact">
             <span class="p-email" id="emailClickable" title="Click to copy">
               coraline0120@gmail.com
@@ -536,17 +528,8 @@
           </div>
         </div>
 
-        <!-- 섹션형 콘텐츠 -->
         <div class="sections">
-
-          <div class="sec">
-            <div class="sec-title">Summary</div>
-            <div class="summary-grid">
-              <div class="sub">Freelance 3D Modeler / Animator</div>
-            </div>
-          </div>
-
-          <div class="sec">
+          <div>
             <div class="sec-title">Skills</div>
             <div class="chips">
               <span class="chip">3D MODELING</span>
@@ -557,29 +540,36 @@
               <span class="chip">LOOKDEV</span>
             </div>
           </div>
-
         </div>
+
       </div>
     </section>
 
-    <!-- FIXED: Top Left Logo -->
+    <!-- Top Left Logo -->
     <a class="top-left-logo" href="#" aria-label="Home" id="homeLogo">
       <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/p4.png?raw=true" alt="p4 logo">
     </a>
 
-    <!-- FIXED: iOS Switch -->
+    <!-- iOS Switch -->
     <div class="top-center-switch" id="modeSwitch" data-mode="home" aria-label="mode switch">
       <span class="switch-label label-home">HOME</span>
+
       <button class="switch-pill" id="switchPill" type="button" aria-label="toggle">
-        <span class="switch-thumb" aria-hidden="true"></span>
+        <span class="switch-thumb" aria-hidden="true">
+          <img id="thumbLogo" class="thumb-logo"
+               src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/p4.png?raw=true"
+               alt="home">
+          <span id="thumbEmoji" class="switch-emoji" style="display:none;">👤</span>
+        </span>
       </button>
+
       <span class="switch-label label-profile">PROFILE</span>
     </div>
 
-    <!-- FIXED: Left Date -->
+    <!-- Left Date -->
     <div class="left-date">2026.02.01</div>
 
-    <!-- FIXED: Bottom SNS -->
+    <!-- Bottom SNS -->
     <nav class="bottom-sns" aria-label="social links">
       <a href="https://www.instagram.com/poit4poit" target="_blank" aria-label="Instagram">
         <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/Instagram_Symbol_3.svg" alt="Instagram">
@@ -598,17 +588,34 @@
   </div>
 
   <script>
-    /* ===== HOME/PROFILE SWITCH ===== */
     const modeSwitch = document.getElementById("modeSwitch");
     const pill = document.getElementById("switchPill");
     const homeScreen = document.getElementById("screen-home");
     const profileScreen = document.getElementById("screen-profile");
+
+    const thumbLogo = document.getElementById("thumbLogo");
+    const thumbEmoji = document.getElementById("thumbEmoji");
 
     function setMode(mode){
       const isProfile = (mode === "profile");
       homeScreen.classList.toggle("active", !isProfile);
       profileScreen.classList.toggle("active", isProfile);
       modeSwitch.dataset.mode = isProfile ? "profile" : "home";
+
+      if (isProfile){
+        thumbLogo.style.display = "none";
+        thumbEmoji.style.display = "inline";
+      } else {
+        thumbLogo.style.display = "block";
+        thumbEmoji.style.display = "none";
+      }
+
+      if (!isProfile){
+        const title = document.querySelector(".hero-title");
+        title.style.animation = "none";
+        void title.offsetWidth;
+        title.style.animation = "";
+      }
     }
 
     pill.addEventListener("click", () => {
@@ -621,7 +628,7 @@
       setMode("home");
     });
 
-    /* ===== PROFILE EMAIL COPY ===== */
+    /* profile email copy */
     const email = "coraline0120@gmail.com";
     const emailClickable = document.getElementById("emailClickable");
     const copyBtnProfile = document.getElementById("copyBtnProfile");
@@ -639,7 +646,6 @@
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(email);
       } else {
-        // fallback
         const ta = document.createElement("textarea");
         ta.value = email;
         document.body.appendChild(ta);
@@ -653,121 +659,7 @@
     emailClickable.addEventListener("click", copyEmail);
     copyBtnProfile.addEventListener("click", copyEmail);
 
-    /* ===== DEPTH / PARALLAX (HOME) ===== */
-    const appRoot = document.getElementById("appRoot");
-
-    // 부드럽게 따라가도록: target -> current lerp
-    let tX = 0, tY = 0;
-    let cX = 0, cY = 0;
-
-    function setDepthVars(nx, ny){
-      // nx, ny: -1 ~ 1
-      const bgMove = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--depth-bg")) || 18;
-      const titleMove = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--depth-title")) || 34;
-
-      // 목표값(px)
-      tX = nx;
-      tY = ny;
-
-      // 실제 적용은 RAF에서
-      appRoot.dataset.bgMove = bgMove;
-      appRoot.dataset.titleMove = titleMove;
-    }
-
-    function raf(){
-      // lerp
-      cX += (tX - cX) * 0.12;
-      cY += (tY - cY) * 0.12;
-
-      const bgMove = Number(appRoot.dataset.bgMove || 18);
-      const titleMove = Number(appRoot.dataset.titleMove || 34);
-
-      // 홈 화면일 때만 적용
-      const isHome = modeSwitch.dataset.mode === "home";
-      if (isHome){
-        const bgX = (cX * bgMove).toFixed(2) + "px";
-        const bgY = (cY * bgMove).toFixed(2) + "px";
-        const titleX = (cX * titleMove).toFixed(2) + "px";
-        const titleY = (cY * titleMove).toFixed(2) + "px";
-
-        document.documentElement.style.setProperty("--bg-x", bgX);
-        document.documentElement.style.setProperty("--bg-y", bgY);
-        document.documentElement.style.setProperty("--title-x", titleX);
-        document.documentElement.style.setProperty("--title-y", titleY);
-      }
-
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    // PC: mouse move
-    window.addEventListener("mousemove", (e) => {
-      const w = window.innerWidth || 1;
-      const h = window.innerHeight || 1;
-      const nx = ((e.clientX / w) - 0.5) * 2; // -1~1
-      const ny = ((e.clientY / h) - 0.5) * 2;
-      setDepthVars(nx, ny);
-    }, { passive: true });
-
-    // Mobile: device orientation (가능할 때)
-    function enableDeviceOrientation(){
-      window.addEventListener("deviceorientation", (e) => {
-        // gamma: left-right (-90~90), beta: front-back (-180~180)
-        const gamma = e.gamma ?? 0;
-        const beta = e.beta ?? 0;
-
-        // clamp & normalize
-        const nx = Math.max(-1, Math.min(1, gamma / 25));
-        const ny = Math.max(-1, Math.min(1, beta / 25));
-        setDepthVars(nx, ny);
-      }, { passive: true });
-    }
-
-    // iOS 권한 요청(필요할 수 있음) — 사용자 액션 없이 요청 안 함
-    // 대신: 첫 터치 시 시도
-    let motionTried = false;
-    window.addEventListener("touchstart", async () => {
-      if (motionTried) return;
-      motionTried = true;
-
-      try{
-        if (typeof DeviceOrientationEvent !== "undefined" &&
-            typeof DeviceOrientationEvent.requestPermission === "function") {
-          const res = await DeviceOrientationEvent.requestPermission();
-          if (res === "granted") enableDeviceOrientation();
-        } else {
-          enableDeviceOrientation();
-        }
-      }catch(_){
-        // 무시
-      }
-    }, { passive: true });
-
-    // Mobile fallback: drag move
-    let dragging = false;
-    let startX = 0, startY = 0;
-
-    window.addEventListener("touchstart", (e) => {
-      dragging = true;
-      const t = e.touches[0];
-      startX = t.clientX;
-      startY = t.clientY;
-    }, { passive: true });
-
-    window.addEventListener("touchmove", (e) => {
-      if (!dragging) return;
-      const t = e.touches[0];
-      const dx = (t.clientX - startX) / (window.innerWidth || 1);
-      const dy = (t.clientY - startY) / (window.innerHeight || 1);
-      setDepthVars(Math.max(-1, Math.min(1, dx * 2.2)), Math.max(-1, Math.min(1, dy * 2.2)));
-    }, { passive: true });
-
-    window.addEventListener("touchend", () => {
-      dragging = false;
-      // 살짝 원점으로 복귀
-      setDepthVars(0, 0);
-    }, { passive: true });
-
+    setMode("home");
   </script>
 </body>
 </html>
