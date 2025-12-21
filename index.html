@@ -5,6 +5,7 @@
   <title>poit4poit</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/p4.png?raw=true">
 
   <!-- Noto Sans -->
@@ -31,8 +32,7 @@
       --radius-md:14px;
       --radius-pill:999px;
 
-      /* ✅ 포잇 GIF 배경 */
-      --hero-gif: url("https://github.com/poit4poit/poit4poit.github.io/blob/main/gif/gif%20copy.gif?raw=true");
+      --hero-gif:url("https://github.com/poit4poit/poit4poit.github.io/blob/main/gif/gif%20copy.gif?raw=true");
     }
 
     body{
@@ -49,24 +49,10 @@
 
     a{ color: inherit; text-decoration: none; }
 
-    /* subtle background */
-    .bg-deco{
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      background:
-        radial-gradient(900px 500px at 15% 10%, rgba(112,166,255,.14), transparent 60%),
-        radial-gradient(700px 500px at 85% 15%, rgba(255,162,207,.14), transparent 60%),
-        radial-gradient(700px 600px at 50% 90%, rgba(153,255,214,.10), transparent 60%);
-    }
-
     .wrap{
-      position: relative;
-      z-index: 1;
       width: min(860px, 92vw);
       margin: 0 auto;
-      padding: 28px 0 calc(34px + env(safe-area-inset-bottom));
+      padding: 28px 0 40px;
       display: grid;
       gap: 14px;
     }
@@ -79,20 +65,16 @@
       overflow: hidden;
     }
 
-    /* ===== PROFILE (GIF HERO) ===== */
+    /* ===== PROFILE ===== */
     .profile{ text-align:center; }
 
     .profile-hero{
-      position: relative;
-      width: 100%;
       height: 220px;
       background-image: var(--hero-gif);
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
+      position: relative;
     }
-
-    /* 어두운 오버레이로 텍스트/아바타 대비 확보 */
     .profile-hero::after{
       content:"";
       position:absolute;
@@ -105,357 +87,238 @@
     }
 
     .profile-inner{
-      position: relative;
       margin-top: -70px;
       padding: 0 26px 22px;
+      position: relative;
       z-index: 1;
     }
 
     .avatar{
       width: 140px;
       height: 140px;
-      border-radius: 999px;
+      border-radius: 50%;
       overflow:hidden;
       margin: 0 auto 14px;
-      background: #eee;
       border: 6px solid #fff;
       box-shadow: 0 14px 30px rgba(0,0,0,0.16);
     }
-    .avatar img{ width:100%; height:100%; object-fit: cover; display:block; }
+    .avatar img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+    }
 
     .name{
       font-size: clamp(28px, 3.4vw, 44px);
       font-weight: 900;
-      letter-spacing: -0.02em;
       margin-bottom: 6px;
       color: #3b332a;
     }
     .role{
       font-size: 16px;
+      font-weight: 800;
       color: var(--muted);
       margin-bottom: 14px;
-      font-weight: 800;
     }
 
     .contact{
       display:flex;
-      align-items:center;
       justify-content:center;
       gap: 10px;
       flex-wrap: wrap;
     }
     .email{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      color: #2a2f36;
-      font-size: 15px;
-      user-select: text;
-      font-weight: 800;
       padding: 10px 12px;
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(30,34,40,0.10);
-      background: #fff;
+      border: 1px solid var(--btn-border);
+      background:#fff;
+      font-weight:800;
+      font-size:15px;
     }
     .copy-btn{
       padding: 10px 14px;
-      font-size: 12px;
       border-radius: var(--radius-pill);
       border: 1px solid var(--btn-border);
-      background: #fff;
-      color: #2a2f36;
-      cursor: pointer;
-      transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
-      font-weight: 900;
-      box-shadow: 0 8px 18px rgba(30,34,40,0.08);
-    }
-    .copy-btn:hover{
-      transform: translateY(-1px);
-      background: var(--btn-hover);
-      border-color: rgba(30,34,40,0.18);
+      background:#fff;
+      font-weight:900;
+      cursor:pointer;
     }
     .copy-btn.copied{
-      background: #b7e3c0;
-      border-color: #a6d9b1;
-      color: #0d7a34;
-      box-shadow: none;
+      background:#b7e3c0;
+      border-color:#a6d9b1;
+      color:#0d7a34;
     }
 
     /* ===== SECTIONS ===== */
     .section{
-      padding: 16px 18px 14px;
+      padding: 16px 18px;
       display:grid;
       gap: 10px;
     }
+
     .section-head{
       display:flex;
-      align-items: baseline;
       justify-content: space-between;
-      gap: 10px;
-      padding: 2px 2px 6px;
-    }
-    .section-title{
+      font-size: 12px;
       font-weight: 900;
-      letter-spacing: 0.14em;
-      font-size: 12px;
-      color: rgba(30,34,40,0.72);
-      text-transform: uppercase;
-      user-select: none;
-    }
-    .section-sub{
-      font-size: 12px;
-      font-weight: 800;
-      color: rgba(30,34,40,0.45);
-      letter-spacing: 0.06em;
-      user-select: none;
-      white-space: nowrap;
+      letter-spacing: .14em;
+      color: rgba(30,34,40,.7);
     }
 
-    /* Link buttons */
     .link-btn{
       display:flex;
-      align-items:center;
       justify-content: space-between;
-      gap: 12px;
-      padding: 14px 14px;
+      align-items:center;
+      padding: 14px;
       border-radius: var(--radius-md);
       border: 1px solid var(--btn-border);
-      background: #fff;
       box-shadow: var(--btn-shadow);
-      transition: transform .16s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease;
+      background:#fff;
+      transition: transform .15s ease;
     }
-    .link-btn:hover{
-      transform: translateY(-2px);
-      background: var(--btn-hover);
-      border-color: rgba(30,34,40,0.18);
-      box-shadow: 0 14px 30px rgba(30,34,40,0.12);
-    }
+    .link-btn:hover{ transform: translateY(-2px); }
 
     .link-left{
       display:flex;
-      align-items:center;
       gap: 12px;
-      min-width: 0;
+      align-items:center;
     }
     .link-ico{
       width: 40px;
       height: 40px;
       border-radius: 12px;
-      border: 1px solid rgba(30,34,40,0.10);
-      background: #fff;
+      border: 1px solid rgba(30,34,40,.1);
       display:flex;
       align-items:center;
       justify-content:center;
-      flex: 0 0 auto;
     }
     .link-ico img{
       width: 22px;
       height: 22px;
-      object-fit: contain;
-      display:block;
-      opacity: 0.92;
     }
-    .link-text{
-      min-width: 0;
-      display:flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .link-title{
-      font-weight: 900;
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    .link-title{ font-weight:900; }
     .link-sub{
       font-size: 12px;
-      color: rgba(30,34,40,0.60);
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-weight:700;
+      color: rgba(30,34,40,.6);
     }
-    .link-arrow{
-      font-weight: 900;
-      color: rgba(30,34,40,0.45);
-      flex: 0 0 auto;
-      padding: 0 4px;
-      user-select: none;
+
+    /* ===== PORTFOLIO GRID ===== */
+    .portfolio-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width:560px){
+      .portfolio-grid{
+        grid-template-columns: 1fr;
+      }
     }
 
     .footer{
       text-align:center;
-      color: rgba(30,34,40,0.55);
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      font-weight: 800;
-      padding: 6px 0 0;
-    }
-
-    @media (max-width: 768px){
-      .wrap{ padding-top: 18px; }
-      .profile-inner{ padding: 0 18px 18px; }
-      .section{ padding: 14px 14px 12px; }
-      .avatar{ width: 124px; height: 124px; }
-      .profile-hero{ height: 210px; }
-      .link-btn{ padding: 13px 12px; }
-      .link-ico{ width: 38px; height: 38px; }
-      .link-ico img{ width: 20px; height: 20px; }
+      font-size:12px;
+      letter-spacing:.12em;
+      font-weight:800;
+      color: rgba(30,34,40,.55);
     }
   </style>
 </head>
 
 <body>
-  <div class="bg-deco" aria-hidden="true"></div>
+<main class="wrap">
 
-  <main class="wrap">
+  <!-- PROFILE -->
+  <section class="card profile">
+    <div class="profile-hero"></div>
 
-    <!-- PROFILE (GIF background) -->
-    <section class="card profile" aria-label="profile card">
-      <div class="profile-hero" aria-hidden="true"></div>
-
-      <div class="profile-inner">
-        <div class="avatar">
-          <img src="https://cdna.artstation.com/p/assets/images/images/092/234/154/4k/chaeyeon-saki-kimchaeyeon.webp?1759082382" alt="profile">
-        </div>
-
-        <div class="name">poit4poit</div>
-        <div class="role">Kim Chae-yeon</div>
-
-        <div class="contact">
-          <span class="email" id="emailTextPlain">coraline0120@gmail.com</span>
-          <button class="copy-btn" id="copyBtnProfile" type="button">Copy</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 1: poit4poit -->
-    <section class="card section" aria-label="poit4poit social links">
-      <div class="section-head">
-        <div class="section-title">POIT4POIT</div>
-        <div class="section-sub">SOCIAL</div>
+    <div class="profile-inner">
+      <div class="avatar">
+        <img src="https://cdna.artstation.com/p/assets/images/images/092/234/154/4k/chaeyeon-saki-kimchaeyeon.webp?1759082382" alt="profile">
       </div>
 
-      <!-- order: Instagram → TikTok → YouTube → Shop -->
-      <a class="link-btn" href="https://www.instagram.com/poit4poit" target="_blank" rel="noopener">
-        <div class="link-left">
-          <div class="link-ico">
-            <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/Instagram_Symbol_3.svg" alt="Instagram">
-          </div>
-          <div class="link-text">
-            <div class="link-title">Instagram</div>
-            <div class="link-sub">@poit4poit</div>
-          </div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
+      <div class="name">poit4poit</div>
+      <div class="role">Kim Chae-yeon</div>
 
-      <a class="link-btn" href="https://www.tiktok.com/@poit4poit" target="_blank" rel="noopener">
-        <div class="link-left">
-          <div class="link-ico">
-            <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/TikTok_Logo.png?raw=true" alt="TikTok">
-          </div>
-          <div class="link-text">
-            <div class="link-title">TikTok</div>
-            <div class="link-sub">@poit4poit</div>
-          </div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
-
-      <a class="link-btn" href="https://www.youtube.com/@poit4poit" target="_blank" rel="noopener">
-        <div class="link-left">
-          <div class="link-ico">
-            <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg" alt="YouTube">
-          </div>
-          <div class="link-text">
-            <div class="link-title">YouTube</div>
-            <div class="link-sub">@poit4poit</div>
-          </div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
-
-      <a class="link-btn" href="#" aria-disabled="true" onclick="return false;">
-        <div class="link-left">
-          <div class="link-ico">
-            <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/fe5d16a847794ace929e04fbfb8c79d99419146f/logo/shopping-icon.svg" alt="Shop">
-          </div>
-          <div class="link-text">
-            <div class="link-title">Shop</div>
-            <div class="link-sub">Coming soon</div>
-          </div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
-    </section>
-
-    <!-- SECTION 2: Kim Chae-yeon -->
-    <section class="card section" aria-label="kim chae-yeon portfolio links">
-      <div class="section-head">
-        <div class="section-title">KIM CHAE-YEON</div>
-        <div class="section-sub">PORTFOLIO</div>
+      <div class="contact">
+        <span class="email" id="emailTextPlain">coraline0120@gmail.com</span>
+        <button class="copy-btn" id="copyBtnProfile">Copy</button>
       </div>
+    </div>
+  </section>
 
-      <a class="link-btn" href="https://www.artstation.com/kimchaeyeon" target="_blank" rel="noopener">
+  <!-- POIT4POIT -->
+  <section class="card section">
+    <div class="section-head">
+      <span>POIT4POIT</span><span>SOCIAL</span>
+    </div>
+
+    <a class="link-btn" href="https://www.instagram.com/poit4poit" target="_blank">
+      <div class="link-left">
+        <div class="link-ico"><img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/Instagram_Symbol_3.svg"></div>
+        <div><div class="link-title">Instagram</div><div class="link-sub">@poit4poit</div></div>
+      </div>
+    </a>
+
+    <a class="link-btn" href="https://www.tiktok.com/@poit4poit" target="_blank">
+      <div class="link-left">
+        <div class="link-ico"><img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/TikTok_Logo.png?raw=true"></div>
+        <div><div class="link-title">TikTok</div><div class="link-sub">@poit4poit</div></div>
+      </div>
+    </a>
+
+    <a class="link-btn" href="https://www.youtube.com/@poit4poit" target="_blank">
+      <div class="link-left">
+        <div class="link-ico"><img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg"></div>
+        <div><div class="link-title">YouTube</div><div class="link-sub">@poit4poit</div></div>
+      </div>
+    </a>
+
+    <a class="link-btn" href="#">
+      <div class="link-left">
+        <div class="link-ico"><img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/fe5d16a847794ace929e04fbfb8c79d99419146f/logo/shopping-icon.svg"></div>
+        <div><div class="link-title">Shop</div><div class="link-sub">Coming soon</div></div>
+      </div>
+    </a>
+  </section>
+
+  <!-- KIM CHAE-YEON -->
+  <section class="card section">
+    <div class="section-head">
+      <span>KIM CHAE-YEON</span><span>PORTFOLIO</span>
+    </div>
+
+    <div class="portfolio-grid">
+
+      <a class="link-btn" href="https://www.artstation.com/kimchaeyeon" target="_blank">
         <div class="link-left">
-          <div class="link-ico">
-            <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/ArtStation_Logo_3.svg" alt="ArtStation">
-          </div>
-          <div class="link-text">
-            <div class="link-title">ArtStation</div>
-            <div class="link-sub">Portfolio</div>
-          </div>
+          <div class="link-ico"><img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/ArtStation_Logo_3.svg"></div>
+          <div><div class="link-title">ArtStation</div><div class="link-sub">Portfolio</div></div>
         </div>
-        <div class="link-arrow">→</div>
       </a>
 
-      <a class="link-btn" href="https://www.linkedin.com/in/poit4poit" target="_blank" rel="noopener">
+      <a class="link-btn" href="https://www.linkedin.com/in/poit4poit" target="_blank">
         <div class="link-left">
-          <div class="link-ico">
-            <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/LinkedIn_Symbol_6.svg" alt="LinkedIn">
-          </div>
-          <div class="link-text">
-            <div class="link-title">LinkedIn</div>
-            <div class="link-sub">Resume</div>
-          </div>
+          <div class="link-ico"><img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/LinkedIn_Symbol_6.svg"></div>
+          <div><div class="link-title">LinkedIn</div><div class="link-sub">Resume</div></div>
         </div>
-        <div class="link-arrow">→</div>
       </a>
-    </section>
 
-    <div class="footer">POIT4POIT</div>
-  </main>
+    </div>
+  </section>
 
-  <script>
-    const email = "coraline0120@gmail.com";
-    const copyBtn = document.getElementById("copyBtnProfile");
+  <div class="footer">POIT4POIT</div>
+</main>
 
-    function flashCopied(btn){
-      btn.classList.add("copied");
-      btn.textContent = "✔️";
-      setTimeout(() => {
-        btn.classList.remove("copied");
-        btn.textContent = "Copy";
-      }, 1100);
-    }
-
-    function copyEmail(){
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(email);
-      } else {
-        const ta = document.createElement("textarea");
-        ta.value = email;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
-      }
-      flashCopied(copyBtn);
-    }
-
-    copyBtn.addEventListener("click", copyEmail);
-  </script>
+<script>
+  const email = "coraline0120@gmail.com";
+  const btn = document.getElementById("copyBtnProfile");
+  btn.addEventListener("click", () => {
+    navigator.clipboard.writeText(email);
+    btn.classList.add("copied");
+    btn.textContent = "✔️";
+    setTimeout(()=>{ btn.classList.remove("copied"); btn.textContent="Copy"; },1100);
+  });
+</script>
 </body>
 </html>
