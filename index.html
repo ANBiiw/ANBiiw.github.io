@@ -13,16 +13,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
 
-  <!-- Title font (ONLY) -->
-  <style>
-    @font-face {
-      font-family: 'HsSantoki20';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2405@1.0/HSSanTokki20-Regular.woff2') format('woff2');
-      font-weight: normal;
-      font-display: swap;
-    }
-  </style>
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
@@ -56,14 +46,21 @@
       --thumb: 34px;
     }
 
+    /* ✅ 폰트: 전부 Noto Sans + 한글 폴백까지 같이 준비 */
     body{
       background:#000;
       color:#fff;
-      font-family:"Noto Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      overflow: hidden; /* ✅ 기본은 스크롤 잠금 */
+      font-family:
+        "Noto Sans",
+        "Apple SD Gothic Neo",
+        "Malgun Gothic",
+        "Noto Sans KR",
+        system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden; /* 기본은 스크롤 잠금 */
     }
     body.profile-scroll{
-      overflow: auto;   /* ✅ 프로필일 때만 스크롤 허용 */
+      overflow: auto;   /* 프로필일 때만 스크롤 허용 */
+      background: var(--p-bg); /* 스크롤 영역 배경이 검정으로 보이는 것 방지 */
     }
 
     a{ color: inherit; text-decoration: none; }
@@ -124,20 +121,22 @@
       }
     }
 
+    /* ✅ 타이틀도 Noto Sans로 통일 */
     .hero-title h1{
-      font-family:'HsSantoki20', sans-serif;
+      font-family: inherit;
       font-size: clamp(64px, 8vw, 140px);
       margin-bottom: 12px;
       text-shadow: 0 8px 30px rgba(0,0,0,0.45);
-      font-weight: normal;
+      font-weight: 900;
+      letter-spacing: -0.02em;
     }
     .hero-title p{
-      font-family:"Noto Sans", sans-serif;
+      font-family: inherit;
       font-size: 14px;
       letter-spacing: 0.4em;
       opacity: 0.82;
       text-shadow: 0 8px 22px rgba(0,0,0,0.4);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     /* left date */
@@ -152,7 +151,7 @@
       opacity: 0.75;
       pointer-events: none;
       text-shadow: 0 6px 18px rgba(0,0,0,0.45);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     /* ===== PROFILE ===== */
@@ -162,7 +161,7 @@
       overflow: visible;
     }
 
-    /* ✅ 프로필 화면은 내용이 길어질 수 있으니, 내부는 자연스럽게 늘어나도록 */
+    /* ✅ Profile: 하단 바가 따로 생기므로, 아래 padding을 충분히 확보 */
     .profile-wrap{
       position: relative;
       min-height: 100svh;
@@ -171,7 +170,7 @@
       padding:
         calc(var(--ui-pad-y) + var(--switch-h) + 26px)
         18px
-        calc(92px + env(safe-area-inset-bottom));
+        calc(120px + env(safe-area-inset-bottom)); /* ✅ 하단 바 + 안전여백 */
       gap: 14px;
 
       justify-items: center;
@@ -230,7 +229,7 @@
       align-items:center;
       justify-content:center;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 0;
       flex-wrap: wrap;
     }
 
@@ -263,26 +262,6 @@
       border-color: #a6d9b1;
       color: #0d7a34;
     }
-
-    .p-icons{
-      display:flex;
-      justify-content:center;
-      gap: 14px;
-      margin-top: 4px;
-    }
-    .p-icons a{
-      width: 36px;
-      height: 36px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-radius: 12px;
-      background: #f0f2f5;
-      transition: 0.2s ease;
-      border: 1px solid #eaedf2;
-    }
-    .p-icons a:hover{ transform: translateY(-2px); background:#e9ecf2; }
-    .p-icons img{ width: 18px; height: 18px; object-fit: contain; display:block; opacity: 0.9; }
 
     .sections{
       width: min(860px, 94vw);
@@ -350,7 +329,6 @@
       user-select:none;
     }
 
-    /* ✅ 라벨 클릭 가능 */
     .switch-label{
       font-size: 12px;
       letter-spacing: 0.18em;
@@ -422,8 +400,8 @@
     .top-center-switch[data-mode="profile"] .label-home{ opacity: 0.55; }
     .top-center-switch[data-mode="profile"] .label-profile{ opacity: 1; }
 
-    /* bottom sns */
-    .bottom-sns{
+    /* ===== Bottom Bars ===== */
+    .bottom-bar{
       position: fixed;
       left: 50%;
       transform: translateX(-50%);
@@ -442,7 +420,7 @@
       -webkit-backdrop-filter: blur(var(--glass-blur));
       box-shadow: var(--glass-shadow);
     }
-    .bottom-sns a{
+    .bottom-bar a{
       width:34px; height:34px;
       display:flex;
       align-items:center;
@@ -450,13 +428,20 @@
       opacity:0.9;
       transition: 0.2s ease;
     }
-    .bottom-sns a:hover{ transform: translateY(-3px); opacity:1; }
-    .bottom-sns img{
+    .bottom-bar a:hover{ transform: translateY(-3px); opacity:1; }
+    .bottom-bar img{
       width:26px; height:26px;
       object-fit: contain;
       filter: drop-shadow(0 3px 6px rgba(0,0,0,0.55));
       display:block;
     }
+
+    /* ✅ 모드별 하단바: 하나만 보이게 */
+    .bottom-home{ display:flex; }
+    .bottom-profile{ display:none; }
+
+    body.profile-scroll .bottom-home{ display:none; }
+    body.profile-scroll .bottom-profile{ display:flex; }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px){
@@ -480,12 +465,13 @@
         padding:
           calc(var(--ui-pad-y) + var(--switch-h) + 24px)
           14px
-          calc(72px + env(safe-area-inset-bottom));
+          calc(108px + env(safe-area-inset-bottom)); /* ✅ 모바일에서도 하단바 여유 */
       }
 
       .avatar{ width: 124px; height: 124px; }
-      .bottom-sns{ gap:18px; padding:10px 16px; }
-      .bottom-sns img{ width:24px; height:24px; }
+
+      .bottom-bar{ gap:18px; padding:10px 16px; }
+      .bottom-bar img{ width:24px; height:24px; }
     }
 
     @media (max-width: 420px){
@@ -534,14 +520,7 @@
             <button class="copy-btn" id="copyBtnProfile" type="button">Copy</button>
           </div>
 
-          <div class="p-icons">
-            <a href="https://www.artstation.com/kimchayeon" target="_blank" aria-label="ArtStation">
-              <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/ArtStation_Logo_3.svg" alt="ArtStation">
-            </a>
-            <a href="https://www.linkedin.com/in/poit4poit" target="_blank" aria-label="LinkedIn">
-              <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/LinkedIn_Symbol_6.svg" alt="LinkedIn">
-            </a>
-          </div>
+          <!-- ✅ Profile 카드 안의 아이콘(ArtStation/LinkedIn) 제거: 하단바로 이동 -->
         </div>
 
         <div class="sections">
@@ -589,8 +568,8 @@
     <!-- Left Date -->
     <div class="left-date">2026.02.01</div>
 
-    <!-- Bottom SNS -->
-    <nav class="bottom-sns" aria-label="social links">
+    <!-- Bottom Bar (HOME) -->
+    <nav class="bottom-bar bottom-home" aria-label="home social links">
       <a href="https://www.instagram.com/poit4poit" target="_blank" aria-label="Instagram">
         <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/Instagram_Symbol_3.svg" alt="Instagram">
       </a>
@@ -602,6 +581,16 @@
       </a>
       <a href="#" aria-label="Shop">
         <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/fe5d16a847794ace929e04fbfb8c79d99419146f/logo/shopping-icon.svg" alt="Shop">
+      </a>
+    </nav>
+
+    <!-- Bottom Bar (PROFILE) ✅ ArtStation/LinkedIn을 여기로 -->
+    <nav class="bottom-bar bottom-profile" aria-label="profile links">
+      <a href="https://www.artstation.com/kimchayeon" target="_blank" aria-label="ArtStation">
+        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/ArtStation_Logo_3.svg" alt="ArtStation">
+      </a>
+      <a href="https://www.linkedin.com/in/poit4poit" target="_blank" aria-label="LinkedIn">
+        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/LinkedIn_Symbol_6.svg" alt="LinkedIn">
       </a>
     </nav>
 
@@ -628,7 +617,7 @@
       modeSwitch.dataset.mode = isProfile ? "profile" : "home";
       modeSwitch.classList.toggle("profile-colors", isProfile);
 
-      // ✅ 스크롤: 프로필에서만 허용
+      // ✅ 스크롤: 프로필에서만 허용 (Skills 잘림 해결)
       document.body.classList.toggle("profile-scroll", isProfile);
 
       // thumb content: HOME=logo, PROFILE=👤
@@ -646,19 +635,19 @@
         title.style.animation = "none";
         void title.offsetWidth;
         title.style.animation = "";
-        window.scrollTo(0, 0); // 혹시 프로필에서 스크롤했으면 복귀
-      } else {
-        window.scrollTo(0, 0);
       }
+
+      // 모드 전환 시 항상 맨 위로
+      window.scrollTo(0, 0);
     }
 
-    // ✅ pill 클릭
+    // pill 클릭
     pill.addEventListener("click", () => {
       const nowMode = modeSwitch.dataset.mode;
       setMode(nowMode === "home" ? "profile" : "home");
     });
 
-    // ✅ HOME/PROFILE 글자 클릭
+    // HOME/PROFILE 글자 클릭
     labelHome.addEventListener("click", () => setMode("home"));
     labelProfile.addEventListener("click", () => setMode("profile"));
 
