@@ -18,172 +18,67 @@
     html, body { height: 100%; }
 
     :root{
-      --ui-pad-x: 18px;
-      --ui-pad-y: 12px;
+      --bg: #f6f7f9;
+      --card: #ffffff;
+      --line: #e8eaf0;
+      --text: #1b1b1b;
+      --muted: #7b808a;
 
-      /* matte liquid-glass */
-      --glass-bg: rgba(255,255,255,0.10);
-      --glass-stroke: rgba(255,255,255,0.18);
-      --glass-shadow: 0 18px 50px rgba(0,0,0,0.35);
-      --glass-blur: 14px;
+      --btn-bg: #ffffff;
+      --btn-border: rgba(30,34,40,0.14);
+      --btn-shadow: 0 10px 22px rgba(30,34,40,0.10);
+      --btn-hover: #f4f6fb;
 
-      /* label colors */
-      --label-home: rgba(245,245,249,0.95);
-      --label-profile-mode: #3b332a;
-
-      --text-dark: #1b1b1b;
-
-      /* profile theme */
-      --p-bg: #f6f7f9;
-      --p-card: #ffffff;
-      --p-line: #e8eaf0;
-      --p-muted: #7b808a;
-
-      /* switch sizes */
-      --switch-w: 86px;
-      --switch-h: 46px;
-      --switch-pad: 6px;
-      --thumb: 34px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --radius-pill: 999px;
     }
 
-    /* ✅ 폰트: 전부 Noto Sans + 한글 폴백까지 같이 준비 */
     body{
-      background:#000;
-      color:#fff;
       font-family:
         "Noto Sans",
         "Apple SD Gothic Neo",
         "Malgun Gothic",
         "Noto Sans KR",
         system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      overflow: hidden; /* 기본은 스크롤 잠금 */
-    }
-    body.profile-scroll{
-      overflow: auto;   /* 프로필일 때만 스크롤 허용 */
-      background: var(--p-bg); /* 스크롤 영역 배경이 검정으로 보이는 것 방지 */
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
     }
 
     a{ color: inherit; text-decoration: none; }
 
-    .app{
-      position: relative;
-      width: 100%;
-      height: 100svh;
-      overflow: hidden;
-    }
-
-    .screen{
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(6px);
-      transition: opacity .22s ease, transform .22s ease;
-    }
-    .screen.active{
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    /* ===== HERO ===== */
-    .hero{ overflow: hidden; }
-    .hero-bg{ position:absolute; inset:0; z-index:0; }
-    .hero-bg img{ width:100%; height:100%; object-fit: cover; display:block; }
-    .hero::before{
-      content:"";
-      position:absolute; inset:0;
-      background: rgba(0,0,0,0.35);
-      z-index:1;
-    }
-
-    .hero-title{
-      position:absolute;
-      top:48%;
-      left:50%;
-      z-index:2;
-      text-align:center;
-      pointer-events:none;
-
-      opacity: 0;
-      filter: blur(6px);
-      transform: translate(-50%, -48%);
-      animation: fadeUp 1.0s ease forwards;
-      animation-delay: .35s;
-    }
-    @keyframes fadeUp{
-      to{
-        opacity: 1;
-        filter: blur(0);
-        transform: translate(-50%, -50%);
-      }
-    }
-
-    /* ✅ 타이틀도 Noto Sans로 통일 */
-    .hero-title h1{
-      font-family: inherit;
-      font-size: clamp(64px, 8vw, 140px);
-      margin-bottom: 12px;
-      text-shadow: 0 8px 30px rgba(0,0,0,0.45);
-      font-weight: 900;
-      letter-spacing: -0.02em;
-    }
-    .hero-title p{
-      font-family: inherit;
-      font-size: 14px;
-      letter-spacing: 0.4em;
-      opacity: 0.82;
-      text-shadow: 0 8px 22px rgba(0,0,0,0.4);
-      font-weight: 700;
-    }
-
-    /* left date */
-    .left-date{
+    /* subtle background */
+    .bg-deco{
       position: fixed;
-      left: 18px;
-      bottom: calc(28px + env(safe-area-inset-bottom));
-      z-index: 95;
-      writing-mode: vertical-rl;
-      letter-spacing: 0.22em;
-      font-size: 12px;
-      opacity: 0.75;
+      inset: 0;
       pointer-events: none;
-      text-shadow: 0 6px 18px rgba(0,0,0,0.45);
-      font-weight: 700;
+      z-index: 0;
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(112, 166, 255, 0.14), transparent 60%),
+        radial-gradient(700px 500px at 85% 15%, rgba(255, 162, 207, 0.14), transparent 60%),
+        radial-gradient(700px 600px at 50% 90%, rgba(153, 255, 214, 0.10), transparent 60%);
     }
 
-    /* ===== PROFILE ===== */
-    .profile{
-      background: var(--p-bg);
-      color: var(--text-dark);
-      overflow: visible;
-    }
-
-    /* ✅ Profile: 하단 바가 따로 생기므로, 아래 padding을 충분히 확보 */
-    .profile-wrap{
+    .wrap{
       position: relative;
-      min-height: 100svh;
+      z-index: 1;
+      width: min(860px, 92vw);
+      margin: 0 auto;
+      padding: 28px 0 calc(34px + env(safe-area-inset-bottom));
       display: grid;
-      grid-template-rows: auto auto;
-      padding:
-        calc(var(--ui-pad-y) + var(--switch-h) + 26px)
-        18px
-        calc(120px + env(safe-area-inset-bottom)); /* ✅ 하단 바 + 안전여백 */
       gap: 14px;
-
-      justify-items: center;
-      align-content: start;
     }
 
-    .profile-hero{
-      width: min(860px, 94vw);
-      margin: 0 auto;
-      background: var(--p-card);
-      border: 1px solid var(--p-line);
-      border-radius: 18px;
-      box-shadow: 0 16px 46px rgba(0,0,0,0.10);
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 16px 46px rgba(0,0,0,0.08);
+    }
+
+    /* Profile card */
+    .profile{
       padding: 26px 26px 22px;
       text-align: center;
     }
@@ -196,470 +91,331 @@
       margin: 0 auto 14px;
       background: #eee;
       border: 6px solid #fff;
-      box-shadow: 0 14px 30px rgba(0,0,0,0.16);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.14);
     }
     .avatar img{ width:100%; height:100%; object-fit: cover; display:block; }
 
-    .p-name{
-      font-size: clamp(30px, 3.4vw, 44px);
+    .name{
+      font-size: clamp(28px, 3.4vw, 44px);
       font-weight: 900;
       letter-spacing: -0.02em;
       margin-bottom: 6px;
-      color: var(--label-profile-mode);
+      color: #3b332a;
     }
-    .p-role{
+    .role{
       font-size: 16px;
-      color: var(--p-muted);
+      color: var(--muted);
       margin-bottom: 10px;
-      font-weight: 700;
+      font-weight: 800;
     }
-    .p-loc{
+    .loc{
       display:flex;
       align-items:center;
       justify-content:center;
       gap: 8px;
-      color: var(--p-muted);
+      color: var(--muted);
       font-size: 14px;
-      margin-bottom: 10px;
-      font-weight: 600;
+      margin-bottom: 12px;
+      font-weight: 700;
     }
 
-    .p-contact{
+    .contact{
       display:flex;
       align-items:center;
       justify-content:center;
       gap: 10px;
-      margin-bottom: 0;
       flex-wrap: wrap;
     }
-
-    .p-email{
+    .email{
       display:inline-flex;
       align-items:center;
-      gap: 6px;
+      gap: 8px;
       color: #2a2f36;
       font-size: 15px;
-      cursor: default;
       user-select: text;
-      font-weight: 700;
+      font-weight: 800;
+      padding: 10px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(30,34,40,0.10);
+      background: #fff;
     }
-
     .copy-btn{
-      padding: 6px 12px;
+      padding: 10px 14px;
       font-size: 12px;
-      border-radius: 999px;
-      border: 1px solid #dde2ec;
-      background: #f3f6fb;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--btn-border);
+      background: var(--btn-bg);
       color: #2a2f36;
       cursor: pointer;
-      transition: 0.2s ease;
-      user-select: none;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
       font-weight: 900;
+      box-shadow: 0 8px 18px rgba(30,34,40,0.08);
     }
-    .copy-btn:hover{ transform: translateY(-1px); background:#eef3ff; }
+    .copy-btn:hover{
+      transform: translateY(-1px);
+      background: var(--btn-hover);
+      border-color: rgba(30,34,40,0.18);
+    }
     .copy-btn.copied{
       background: #b7e3c0;
       border-color: #a6d9b1;
       color: #0d7a34;
+      box-shadow: none;
     }
 
-    .sections{
-      width: min(860px, 94vw);
-      margin: 0 auto;
-      background: var(--p-card);
-      border: 1px solid var(--p-line);
-      border-radius: 18px;
-      box-shadow: 0 16px 46px rgba(0,0,0,0.08);
-      padding: 18px 22px;
-      display: grid;
-      gap: 14px;
-      overflow: hidden;
-      justify-self: center;
+    /* Section headings */
+    .section{
+      padding: 16px 18px 14px;
+      display:grid;
+      gap: 10px;
     }
-
-    .sec-title{
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      margin-bottom: 10px;
-      color: #222;
-    }
-
-    .chips{
+    .section-head{
       display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 2px 2px 6px;
     }
-    .chip{
-      border: 1px solid #cfd5df;
-      background: #fff;
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 12px;
-      letter-spacing: 0.02em;
-      color:#2a2f36;
+    .section-title{
       font-weight: 900;
+      letter-spacing: 0.14em;
+      font-size: 12px;
+      color: rgba(30,34,40,0.72);
+      text-transform: uppercase;
+      user-select: none;
+    }
+    .section-sub{
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(30,34,40,0.45);
+      letter-spacing: 0.06em;
+      user-select: none;
+      white-space: nowrap;
     }
 
-    /* ===== FIXED UI ===== */
-    .top-left-logo{
-      position: fixed;
-      top: var(--ui-pad-y);
-      left: var(--ui-pad-x);
-      z-index: 90;
-      pointer-events: auto;
-    }
-    .top-left-logo img{
-      height: 38px;
-      width:auto;
-      display:block;
-      filter: drop-shadow(0 4px 14px rgba(0,0,0,0.6));
-      opacity: 0.95;
-    }
-
-    .top-center-switch{
-      position: fixed;
-      top: var(--ui-pad-y);
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 95;
+    /* Link buttons */
+    .link-btn{
       display:flex;
       align-items:center;
-      gap: 10px;
-      user-select:none;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--btn-border);
+      background: var(--btn-bg);
+      box-shadow: var(--btn-shadow);
+      transition: transform .16s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease;
+    }
+    .link-btn:hover{
+      transform: translateY(-2px);
+      background: var(--btn-hover);
+      border-color: rgba(30,34,40,0.18);
+      box-shadow: 0 14px 30px rgba(30,34,40,0.12);
     }
 
-    .switch-label{
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      font-weight: 800;
-      transition: opacity .2s ease, color .22s ease;
-      text-shadow: 0 6px 18px rgba(0,0,0,0.18);
-      color: var(--label-home);
-      cursor: pointer;
-      padding: 6px 4px;
+    .link-left{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-width: 0;
     }
-    .top-center-switch.profile-colors .switch-label{
-      color: var(--label-profile-mode);
-      text-shadow: none;
-    }
-
-    .switch-pill{
-      position: relative;
-      width: var(--switch-w);
-      height: var(--switch-h);
-      border-radius: 999px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-stroke);
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      box-shadow: var(--glass-shadow);
-      padding: var(--switch-pad);
-      cursor: pointer;
-      transition: 0.2s ease;
-      appearance: none;
-      outline: none;
+    .link-ico{
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid rgba(30,34,40,0.10);
+      background: #fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       flex: 0 0 auto;
     }
-
-    .switch-thumb{
-      position: absolute;
-      top: var(--switch-pad);
-      left: var(--switch-pad);
-      width: var(--thumb);
-      height: var(--thumb);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.82);
-      box-shadow: 0 18px 34px rgba(0,0,0,0.22);
-      transition: transform .25s ease;
-
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .thumb-logo{
-      width: 18px;
-      height: 18px;
+    .link-ico img{
+      width: 22px;
+      height: 22px;
       object-fit: contain;
       display:block;
-      opacity: 0.95;
+      opacity: 0.92;
     }
-    .switch-emoji{
-      font-size: 16px;
-      line-height: 1;
-      transform: translateY(0.5px);
-    }
-
-    .top-center-switch[data-mode="profile"] .switch-thumb{
-      transform: translateX(calc(var(--switch-w) - (var(--switch-pad) * 2) - var(--thumb)));
-    }
-
-    .top-center-switch[data-mode="home"] .label-home{ opacity: 1; }
-    .top-center-switch[data-mode="home"] .label-profile{ opacity: 0.55; }
-    .top-center-switch[data-mode="profile"] .label-home{ opacity: 0.55; }
-    .top-center-switch[data-mode="profile"] .label-profile{ opacity: 1; }
-
-    /* ===== Bottom Bars ===== */
-    .bottom-bar{
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: calc(18px + env(safe-area-inset-bottom));
-      z-index: 95;
-
+    .link-text{
+      min-width: 0;
       display:flex;
-      align-items:center;
-      gap:22px;
-      padding:12px 20px;
-      border-radius:999px;
-
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-stroke);
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      box-shadow: var(--glass-shadow);
+      flex-direction: column;
+      gap: 2px;
     }
-    .bottom-bar a{
-      width:34px; height:34px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      opacity:0.9;
-      transition: 0.2s ease;
+    .link-title{
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .bottom-bar a:hover{ transform: translateY(-3px); opacity:1; }
-    .bottom-bar img{
-      width:26px; height:26px;
-      object-fit: contain;
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.55));
-      display:block;
+    .link-sub{
+      font-size: 12px;
+      color: rgba(30,34,40,0.60);
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .link-arrow{
+      font-weight: 900;
+      color: rgba(30,34,40,0.45);
+      flex: 0 0 auto;
+      padding: 0 4px;
+      user-select: none;
     }
 
-    /* ✅ 모드별 하단바: 하나만 보이게 */
-    .bottom-home{ display:flex; }
-    .bottom-profile{ display:none; }
+    .footer{
+      text-align:center;
+      color: rgba(30,34,40,0.55);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+      padding: 6px 0 0;
+    }
 
-    body.profile-scroll .bottom-home{ display:none; }
-    body.profile-scroll .bottom-profile{ display:flex; }
-
-    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px){
-      :root{
-        --ui-pad-x: 14px;
-        --ui-pad-y: 10px;
-
-        --switch-w: 84px;
-        --switch-h: 44px;
-        --switch-pad: 6px;
-        --thumb: 32px;
-
-        --glass-bg: rgba(255,255,255,0.09);
-        --glass-stroke: rgba(255,255,255,0.16);
-        --glass-blur: 14px;
-      }
-
-      .top-left-logo img{ height: 32px; }
-
-      .profile-wrap{
-        padding:
-          calc(var(--ui-pad-y) + var(--switch-h) + 24px)
-          14px
-          calc(108px + env(safe-area-inset-bottom)); /* ✅ 모바일에서도 하단바 여유 */
-      }
-
+      .wrap{ padding-top: 18px; }
+      .profile{ padding: 22px 18px 18px; }
+      .section{ padding: 14px 14px 12px; }
       .avatar{ width: 124px; height: 124px; }
-
-      .bottom-bar{ gap:18px; padding:10px 16px; }
-      .bottom-bar img{ width:24px; height:24px; }
-    }
-
-    @media (max-width: 420px){
-      :root{ --switch-w: 80px; }
-      .sec-title{ font-size: 20px; }
-      .chip{ font-size: 11px; padding: 6px 9px; }
-      .switch-label{ font-size: 11px; }
+      .link-btn{ padding: 13px 12px; }
+      .link-ico{ width: 38px; height: 38px; }
+      .link-ico img{ width: 20px; height: 20px; }
     }
   </style>
 </head>
 
 <body>
-  <div class="app" id="appRoot">
+  <div class="bg-deco" aria-hidden="true"></div>
 
-    <!-- HOME -->
-    <section class="screen hero active" id="screen-home" aria-label="home">
-      <div class="hero-bg">
-        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/main/gif/gif%20copy.gif" alt="bg gif">
+  <main class="wrap">
+
+    <!-- profile -->
+    <section class="card profile" aria-label="profile card">
+      <div class="avatar">
+        <img src="https://cdna.artstation.com/p/assets/images/images/092/234/154/4k/chaeyeon-saki-kimchaeyeon.webp?1759082382" alt="profile">
       </div>
 
-      <div class="hero-title" aria-hidden="true">
-        <h1>poit4poit</h1>
-        <p>COSMIC&nbsp;&nbsp;MEMORIES</p>
+      <!-- (2) swap -->
+      <div class="name">poit4poit</div>
+      <div class="role">Kim Chae-yeon</div>
+
+      <div class="loc">
+        <span>📍</span>
+        <span>Busan, South Korea</span>
       </div>
-    </section>
 
-    <!-- PROFILE -->
-    <section class="screen profile" id="screen-profile" aria-label="profile">
-      <div class="profile-wrap">
-
-        <div class="profile-hero">
-          <div class="avatar">
-            <img src="https://cdna.artstation.com/p/assets/images/images/092/234/154/4k/chaeyeon-saki-kimchaeyeon.webp?1759082382" alt="profile">
-          </div>
-
-          <div class="p-name">Kim Chae-yeon</div>
-          <div class="p-role">3D Artist</div>
-
-          <div class="p-loc">
-            <span>📍</span>
-            <span>Busan, South Korea</span>
-          </div>
-
-          <div class="p-contact">
-            <span class="p-email" id="emailTextPlain">coraline0120@gmail.com</span>
-            <button class="copy-btn" id="copyBtnProfile" type="button">Copy</button>
-          </div>
-
-          <!-- ✅ Profile 카드 안의 아이콘(ArtStation/LinkedIn) 제거: 하단바로 이동 -->
-        </div>
-
-        <div class="sections">
-          <div>
-            <div class="sec-title">Skills</div>
-            <div class="chips">
-              <span class="chip">3D MODELING</span>
-              <span class="chip">CHARACTER DESIGN</span>
-              <span class="chip">CHARACTER MODELING</span>
-              <span class="chip">PBR TEXTURING</span>
-              <span class="chip">HARD SURFACE</span>
-              <span class="chip">LOOKDEV</span>
-              <span class="chip">RIGGING</span>
-              <span class="chip">UNITY / UE</span>
-              <span class="chip">ZBRUSH</span>
-              <span class="chip">SUBSTANCE</span>
-            </div>
-          </div>
-        </div>
-
+      <div class="contact">
+        <span class="email" id="emailTextPlain">coraline0120@gmail.com</span>
+        <button class="copy-btn" id="copyBtnProfile" type="button">Copy</button>
       </div>
     </section>
 
-    <!-- Top Left Logo -->
-    <a class="top-left-logo" href="#" aria-label="Home" id="homeLogo">
-      <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/p4.png?raw=true" alt="p4 logo">
-    </a>
+    <!-- (6) SECTION 1: poit4poit -->
+    <section class="card section" aria-label="poit4poit social links">
+      <div class="section-head">
+        <div class="section-title">POIT4POIT</div>
+        <div class="section-sub">SOCIAL</div>
+      </div>
 
-    <!-- Switch (labels clickable) -->
-    <div class="top-center-switch" id="modeSwitch" data-mode="home" aria-label="mode switch">
-      <span class="switch-label label-home" id="labelHome">HOME</span>
-
-      <button class="switch-pill" id="switchPill" type="button" aria-label="toggle">
-        <span class="switch-thumb" aria-hidden="true">
-          <img id="thumbLogo" class="thumb-logo"
-               src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/p4.png?raw=true"
-               alt="home">
-          <span id="thumbEmoji" class="switch-emoji" style="display:none;">👤</span>
-        </span>
-      </button>
-
-      <span class="switch-label label-profile" id="labelProfile">PROFILE</span>
-    </div>
-
-    <!-- Left Date -->
-    <div class="left-date">2026.02.01</div>
-
-    <!-- Bottom Bar (HOME) -->
-    <nav class="bottom-bar bottom-home" aria-label="home social links">
-      <a href="https://www.instagram.com/poit4poit" target="_blank" aria-label="Instagram">
-        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/Instagram_Symbol_3.svg" alt="Instagram">
+      <!-- (4) order: Instagram → TikTok → YouTube → Shop -->
+      <a class="link-btn" href="https://www.instagram.com/poit4poit" target="_blank" rel="noopener">
+        <div class="link-left">
+          <div class="link-ico">
+            <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/Instagram_Symbol_3.svg" alt="Instagram">
+          </div>
+          <div class="link-text">
+            <div class="link-title">Instagram</div>
+            <div class="link-sub">@poit4poit</div>
+          </div>
+        </div>
+        <div class="link-arrow">→</div>
       </a>
-      <a href="https://www.tiktok.com/@poit4poit" target="_blank" aria-label="TikTok">
-        <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/TikTok_Logo.png?raw=true" alt="TikTok">
-      </a>
-      <a href="https://www.youtube.com/@poit4poit" target="_blank" aria-label="YouTube">
-        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg" alt="YouTube">
-      </a>
-      <a href="#" aria-label="Shop">
-        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/fe5d16a847794ace929e04fbfb8c79d99419146f/logo/shopping-icon.svg" alt="Shop">
-      </a>
-    </nav>
 
-    <!-- Bottom Bar (PROFILE) ✅ ArtStation/LinkedIn을 여기로 -->
-    <nav class="bottom-bar bottom-profile" aria-label="profile links">
-      <a href="https://www.artstation.com/kimchayeon" target="_blank" aria-label="ArtStation">
-        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/ArtStation_Logo_3.svg" alt="ArtStation">
+      <a class="link-btn" href="https://www.tiktok.com/@poit4poit" target="_blank" rel="noopener">
+        <div class="link-left">
+          <div class="link-ico">
+            <img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/TikTok_Logo.png?raw=true" alt="TikTok">
+          </div>
+          <div class="link-text">
+            <div class="link-title">TikTok</div>
+            <div class="link-sub">@poit4poit</div>
+          </div>
+        </div>
+        <div class="link-arrow">→</div>
       </a>
-      <a href="https://www.linkedin.com/in/poit4poit" target="_blank" aria-label="LinkedIn">
-        <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/LinkedIn_Symbol_6.svg" alt="LinkedIn">
-      </a>
-    </nav>
 
-  </div>
+      <a class="link-btn" href="https://www.youtube.com/@poit4poit" target="_blank" rel="noopener">
+        <div class="link-left">
+          <div class="link-ico">
+            <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg" alt="YouTube">
+          </div>
+          <div class="link-text">
+            <div class="link-title">YouTube</div>
+            <div class="link-sub">@poit4poit</div>
+          </div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+      <a class="link-btn" href="#" aria-disabled="true" onclick="return false;">
+        <div class="link-left">
+          <div class="link-ico">
+            <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/fe5d16a847794ace929e04fbfb8c79d99419146f/logo/shopping-icon.svg" alt="Shop">
+          </div>
+          <div class="link-text">
+            <div class="link-title">Shop</div>
+            <div class="link-sub">Coming soon</div>
+          </div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+    </section>
+
+    <!-- (6) SECTION 2: Kim Chae-yeon -->
+    <section class="card section" aria-label="kim chae-yeon portfolio links">
+      <div class="section-head">
+        <div class="section-title">KIM CHAE-YEON</div>
+        <div class="section-sub">PORTFOLIO</div>
+      </div>
+
+      <!-- (4) continue order: ArtStation → LinkedIn -->
+      <a class="link-btn" href="https://www.artstation.com/kimchayeon" target="_blank" rel="noopener">
+        <div class="link-left">
+          <div class="link-ico">
+            <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/ArtStation_Logo_3.svg" alt="ArtStation">
+          </div>
+          <div class="link-text">
+            <div class="link-title">ArtStation Portfolio</div>
+            <div class="link-sub">Best works / breakdown</div>
+          </div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+      <a class="link-btn" href="https://www.linkedin.com/in/poit4poit" target="_blank" rel="noopener">
+        <div class="link-left">
+          <div class="link-ico">
+            <img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/LinkedIn_Symbol_6.svg" alt="LinkedIn">
+          </div>
+          <div class="link-text">
+            <div class="link-title">LinkedIn</div>
+            <div class="link-sub">Resume / experience</div>
+          </div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+    </section>
+
+    <div class="footer">POIT4POIT</div>
+  </main>
 
   <script>
-    const modeSwitch = document.getElementById("modeSwitch");
-    const pill = document.getElementById("switchPill");
-    const homeScreen = document.getElementById("screen-home");
-    const profileScreen = document.getElementById("screen-profile");
-
-    const thumbLogo = document.getElementById("thumbLogo");
-    const thumbEmoji = document.getElementById("thumbEmoji");
-
-    const labelHome = document.getElementById("labelHome");
-    const labelProfile = document.getElementById("labelProfile");
-
-    function setMode(mode){
-      const isProfile = (mode === "profile");
-
-      homeScreen.classList.toggle("active", !isProfile);
-      profileScreen.classList.toggle("active", isProfile);
-
-      modeSwitch.dataset.mode = isProfile ? "profile" : "home";
-      modeSwitch.classList.toggle("profile-colors", isProfile);
-
-      // ✅ 스크롤: 프로필에서만 허용 (Skills 잘림 해결)
-      document.body.classList.toggle("profile-scroll", isProfile);
-
-      // thumb content: HOME=logo, PROFILE=👤
-      if (isProfile){
-        thumbLogo.style.display = "none";
-        thumbEmoji.style.display = "inline";
-      } else {
-        thumbLogo.style.display = "block";
-        thumbEmoji.style.display = "none";
-      }
-
-      // re-trigger hero fade-in when returning home
-      if (!isProfile){
-        const title = document.querySelector(".hero-title");
-        title.style.animation = "none";
-        void title.offsetWidth;
-        title.style.animation = "";
-      }
-
-      // 모드 전환 시 항상 맨 위로
-      window.scrollTo(0, 0);
-    }
-
-    // pill 클릭
-    pill.addEventListener("click", () => {
-      const nowMode = modeSwitch.dataset.mode;
-      setMode(nowMode === "home" ? "profile" : "home");
-    });
-
-    // HOME/PROFILE 글자 클릭
-    labelHome.addEventListener("click", () => setMode("home"));
-    labelProfile.addEventListener("click", () => setMode("profile"));
-
-    // logo 클릭 = home
-    document.getElementById("homeLogo").addEventListener("click", (e) => {
-      e.preventDefault();
-      setMode("home");
-    });
-
-    /* copy only (button) */
+    // copy email
     const email = "coraline0120@gmail.com";
-    const copyBtnProfile = document.getElementById("copyBtnProfile");
+    const copyBtn = document.getElementById("copyBtnProfile");
 
     function flashCopied(btn){
       btn.classList.add("copied");
@@ -681,13 +437,10 @@
         document.execCommand("copy");
         document.body.removeChild(ta);
       }
-      flashCopied(copyBtnProfile);
+      flashCopied(copyBtn);
     }
 
-    copyBtnProfile.addEventListener("click", copyEmail);
-
-    // init
-    setMode("home");
+    copyBtn.addEventListener("click", copyEmail);
   </script>
 </body>
 </html>
