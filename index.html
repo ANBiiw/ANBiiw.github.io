@@ -1,277 +1,589 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kim Chae-yeon</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kim Chae-yeon</title>
 
-<style>
-:root{
-  --bg:#fff;
-  --text:#111;
-  --muted:#777;
-  --border:#eaeaea;
+  <style>
+    :root{
+      --bg:#fff;
+      --text:#111;
+      --muted:#777;
+      --border:#eaeaea;
 
-  --nav-w:260px;
-  --content-w:860px;
-}
+      --nav-w: 280px;
+      --content-w: 900px;
 
-/* Reset */
-*{box-sizing:border-box;}
-html,body{margin:0;padding:0;}
-body{
-  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
-a{color:inherit;text-decoration:none;}
-html{scroll-behavior:smooth;}
+      --pad: 24px;
+      --gap: 10px;
 
-/* Layout */
-.app{
-  display:grid;
-  grid-template-columns: var(--nav-w) 1fr;
-  min-height:100vh;
-}
+      --topbar-h: 56px;
+    }
 
-/* Sidebar */
-.nav{
-  position:sticky;
-  top:0;
-  height:100vh;
-  padding:20px 16px;
-  border-right:1px solid var(--border);
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-}
-.brand a{
-  font-weight:800;
-  font-size:18px;
-}
-.nav-list{
-  list-style:none;
-  padding:0;
-  margin:12px 0 0;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-.nav-item a{
-  display:flex;
-  justify-content:space-between;
-  padding:8px 10px;
-  border-radius:8px;
-}
-.nav-item a:hover{background:#f3f3f3;}
-.nav-title{font-weight:600;}
-.nav-num{font-size:12px;color:var(--muted);}
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; margin:0; padding:0; }
+    body{
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden; /* ✅ 오른쪽 패널만 스크롤 */
+    }
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
 
-.nav-spacer{flex:1;}
+    /* ---------- Layout ---------- */
+    .app{
+      display:grid;
+      grid-template-columns: var(--nav-w) 1fr;
+      height: 100vh;
+    }
 
-.footer{
-  border-top:1px solid var(--border);
-  padding-top:12px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-.footer a{
-  font-size:14px;
-  color:var(--muted);
-  font-weight:600;
-}
-.copy-row{
-  display:flex;
-  gap:8px;
-  align-items:center;
-}
-.copy-row span{
-  font-size:13px;
-  color:var(--muted);
-}
-.copy-row button{
-  font-size:12px;
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background:#fff;
-  cursor:pointer;
-}
+    /* ---------- Sidebar ---------- */
+    .nav{
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      padding: 20px 16px;
+      border-right: 1px solid var(--border);
+      background: var(--bg);
+      display:flex;
+      flex-direction:column;
+      gap: 16px;
+      overflow: hidden; /* 네비 자체는 스크롤 안 쓰는 구성 */
+    }
 
-/* Content */
-.content{
-  padding:32px 24px 60px;
-}
-.hero{
-  max-width:var(--content-w);
-  margin:0 auto 24px;
-}
-.hero h1{
-  margin:0;
-  font-size:52px;
-}
-.hero p{
-  margin:8px 0 0;
-  color:var(--muted);
-}
+    .brand a{
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: -0.2px;
+    }
 
-.section{
-  max-width:var(--content-w);
-  margin:0 auto 48px;
-  scroll-margin-top:24px; /* 네비 클릭 정확도 */
-}
-.section-head{
-  display:flex;
-  gap:10px;
-  margin-bottom:12px;
-}
-.section-code{
-  font-weight:800;
-  color:var(--muted);
-}
-.section-title{
-  font-size:26px;
-  font-weight:800;
-}
+    .nav-list{
+      list-style:none;
+      padding:0;
+      margin: 10px 0 0;
+      display:flex;
+      flex-direction:column;
+      gap: 6px;
+    }
 
-/* Slides (이미지만) */
-.slides{
-  display:grid;
-  gap:8px; /* 너무 붙지 않게 */
-}
-.slide img{
-  width:100%;
-  height:auto;
-  display:block;
-}
+    .nav-item a{
+      display:flex;
+      justify-content:space-between;
+      align-items: baseline;
+      padding: 10px 10px;
+      border-radius: 10px;
+      transition: background .15s ease, transform .05s ease;
+    }
+    .nav-item a:hover{ background:#f3f3f3; text-decoration:none; }
+    .nav-item a:active{ transform: translateY(1px); }
 
-/* Back to top */
-.to-top{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  border:1px solid var(--border);
-  background:#fff;
-  display:grid;
-  place-items:center;
-  cursor:pointer;
-  opacity:0;
-  pointer-events:none;
-  transition:.2s;
-}
-.to-top.show{
-  opacity:1;
-  pointer-events:auto;
-}
-.to-top svg{width:18px;height:18px;}
+    .nav-title{ font-weight:700; font-size:15px; }
+    .nav-num{ font-size:12px; color: var(--muted); }
 
-/* Mobile */
-@media(max-width:640px){
-  .app{grid-template-columns:1fr;}
-  .nav{display:none;}
-  .hero h1{font-size:40px;}
-}
-</style>
+    .nav-spacer{ flex:1; }
+
+    .footer{
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .footer a{
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .copy-row{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+    .copy-row span{
+      color: var(--muted);
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+    }
+    .btn{
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: background .15s ease, transform .05s ease;
+    }
+    .btn:hover{ background:#f7f7f7; }
+    .btn:active{ transform: translateY(1px); }
+
+    /* ---------- Right panel (scroll container) ---------- */
+    .content{
+      height: 100vh;
+      overflow-y: auto;   /* ✅ 오른쪽만 스크롤 */
+      overflow-x: hidden; /* ✅ 가로 튐 방지 */
+      padding: 32px var(--pad) 64px;
+      scroll-behavior: smooth; /* ✅ 오른쪽 패널 부드러운 스크롤 */
+    }
+
+    .hero{
+      max-width: var(--content-w);
+      margin: 0 auto 22px;
+    }
+    .hero h1{
+      margin: 0 0 8px;
+      font-size: 52px;
+      letter-spacing: -0.8px;
+    }
+    .hero p{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .section{
+      max-width: var(--content-w);
+      margin: 0 auto 48px;
+      scroll-margin-top: 16px; /* (보조) */
+    }
+    .section-head{
+      display:flex;
+      align-items:baseline;
+      gap: 10px;
+      margin: 22px 0 12px;
+    }
+    .section-code{
+      font-weight: 900;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .6px;
+    }
+    .section-title{
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.3px;
+    }
+
+    /* ✅ “이미지만” + 화면 밖 튐 방지 */
+    .slides{
+      display:grid;
+      gap: var(--gap); /* ✅ 너무 넓지 않게 */
+    }
+    .slides img{
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      display:block;
+
+      /* 혹시 이미지가 이상하게 커도 가로 튐 방지 */
+      object-fit: contain;
+    }
+
+    /* ---------- Mobile Topbar + Menu ---------- */
+    .topbar{
+      display:none;
+    }
+
+    .overlay{
+      display:none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.25);
+      z-index: 50;
+    }
+    .overlay.open{ display:block; }
+
+    .drawer{
+      position:absolute;
+      inset:0;
+      background: var(--bg);
+      display:flex;
+      flex-direction:column;
+    }
+    .drawer-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .drawer-body{
+      padding: 16px;
+      overflow:auto;
+    }
+    .drawer-list{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .drawer-link{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      padding: 12px 10px;
+      border-radius: 12px;
+      font-weight: 900;
+    }
+    .drawer-link:hover{ background:#f3f3f3; text-decoration:none; }
+    .drawer-link small{ color: var(--muted); font-weight: 900; }
+
+    .drawer-actions{
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    /* ---------- Back to top (scrolls .content) ---------- */
+    .to-top{
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 90;
+
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(6px);
+
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity .2s ease, transform .2s ease, background .15s ease;
+    }
+    .to-top:hover{ background:#f5f5f5; }
+    .to-top.show{
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .to-top svg{ width:18px; height:18px; display:block; }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(17,17,17,.92);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      display:none;
+      z-index: 100;
+    }
+    .toast.show{ display:block; }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 640px){
+      body{ overflow:hidden; }
+      .app{
+        grid-template-columns: 1fr;
+      }
+      .nav{ display:none; }
+
+      .topbar{
+        display:block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--topbar-h);
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        z-index: 40;
+      }
+      .topbar-inner{
+        height: 100%;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding: 0 14px;
+      }
+      .logo-link{
+        font-weight: 900;
+        letter-spacing: -0.2px;
+      }
+
+      .content{
+        height: calc(100vh - var(--topbar-h));
+        margin-top: var(--topbar-h);
+        padding: 20px 16px 64px;
+      }
+
+      .hero h1{ font-size: 40px; }
+
+      .to-top{ right: 16px; bottom: 16px; }
+    }
+  </style>
 </head>
 
 <body>
+  <!-- Mobile Topbar -->
+  <header class="topbar" aria-label="Mobile topbar">
+    <div class="topbar-inner">
+      <a class="logo-link" href="#top" data-scroll="#top">Kim Chae-yeon</a>
+      <button class="btn" type="button" id="openMenu" aria-label="Open menu">Menu</button>
+    </div>
+  </header>
 
-<div class="app">
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="nav" aria-label="Left navigation">
+      <div class="brand"><a href="#top" data-scroll="#top">Kim Chae-yeon</a></div>
 
-<!-- Sidebar -->
-<aside class="nav">
-  <div class="brand"><a href="#top">Kim Chae-yeon</a></div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="#work-01" data-scroll="#work-01"><span class="nav-title">Work 01</span><span class="nav-num">01</span></a></li>
+        <li class="nav-item"><a href="#work-02" data-scroll="#work-02"><span class="nav-title">Work 02</span><span class="nav-num">02</span></a></li>
+        <li class="nav-item"><a href="#work-03" data-scroll="#work-03"><span class="nav-title">Work 03</span><span class="nav-num">03</span></a></li>
+        <li class="nav-item"><a href="#work-04" data-scroll="#work-04"><span class="nav-title">Work 04</span><span class="nav-num">04</span></a></li>
+        <li class="nav-item"><a href="#work-05" data-scroll="#work-05"><span class="nav-title">Work 05</span><span class="nav-num">05</span></a></li>
+      </ul>
 
-  <ul class="nav-list">
-    <li class="nav-item"><a href="#work-01"><span class="nav-title">Work 01</span><span class="nav-num">01</span></a></li>
-    <li class="nav-item"><a href="#work-02"><span class="nav-title">Work 02</span><span class="nav-num">02</span></a></li>
-    <li class="nav-item"><a href="#work-03"><span class="nav-title">Work 03</span><span class="nav-num">03</span></a></li>
-    <li class="nav-item"><a href="#work-04"><span class="nav-title">Work 04</span><span class="nav-num">04</span></a></li>
-    <li class="nav-item"><a href="#work-05"><span class="nav-title">Work 05</span><span class="nav-num">05</span></a></li>
-  </ul>
+      <div class="nav-spacer"></div>
 
-  <div class="nav-spacer"></div>
+      <div class="footer">
+        <a href="https://www.artstation.com/kimchaeyeon" target="_blank" rel="noreferrer">ArtStation</a>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
 
-  <div class="footer">
-    <a href="https://www.artstation.com/kimchaeyeon" target="_blank">ArtStation</a>
-    <a href="https://www.linkedin.com/" target="_blank">LinkedIn</a>
-    <div class="copy-row">
-      <span>coraline0120@gmail.com</span>
-      <button onclick="navigator.clipboard.writeText('coraline0120@gmail.com')">Copy</button>
+        <div class="copy-row">
+          <span>coraline0120@gmail.com</span>
+          <button class="btn" type="button" id="copyEmailBtn">Copy Email</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content (scroll container) -->
+    <main class="content" id="content">
+      <div id="top"></div>
+
+      <section class="hero" aria-label="Intro">
+        <h1>Brand Guidelines</h1>
+        <p>개인정보 슬라이드만 제거된 포트폴리오입니다.</p>
+        <p>좌측 네비게이션을 통해 PDF 이미지를 편리하게 볼 수 있습니다.</p>
+      </section>
+
+
+
+      <section class="section" id="work-01" aria-label="Work 01">
+        <div class="section-head">
+          <div class="section-code">01</div>
+          <div class="section-title">Work 01</div>
+        </div>
+        <div class="slides">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 01 Slide 01" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 01 Slide 02" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 01 Slide 03" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 01 Slide 04" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 01 Slide 05" loading="lazy">
+        </div>
+      </section>
+
+      <section class="section" id="work-02" aria-label="Work 02">
+        <div class="section-head"><div class="section-code">02</div><div class="section-title">Work 02</div></div>
+        <div class="slides">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 02 Slide 01" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 02 Slide 02" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 02 Slide 03" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 02 Slide 04" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 02 Slide 05" loading="lazy">
+        </div>
+      </section>
+
+      <section class="section" id="work-03" aria-label="Work 03">
+        <div class="section-head"><div class="section-code">03</div><div class="section-title">Work 03</div></div>
+        <div class="slides">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 03 Slide 01" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 03 Slide 02" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 03 Slide 03" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 03 Slide 04" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 03 Slide 05" loading="lazy">
+        </div>
+      </section>
+
+      <section class="section" id="work-04" aria-label="Work 04">
+        <div class="section-head"><div class="section-code">04</div><div class="section-title">Work 04</div></div>
+        <div class="slides">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 04 Slide 01" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 04 Slide 02" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 04 Slide 03" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 04 Slide 04" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 04 Slide 05" loading="lazy">
+        </div>
+      </section>
+
+      <section class="section" id="work-05" aria-label="Work 05">
+        <div class="section-head"><div class="section-code">05</div><div class="section-title">Work 05</div></div>
+        <div class="slides">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 05 Slide 01" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 05 Slide 02" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 05 Slide 03" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 05 Slide 04" loading="lazy">
+          <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634" alt="Work 05 Slide 05" loading="lazy">
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Back to top (scrolls the right panel) -->
+  <button class="to-top" id="toTopBtn" aria-label="Back to top" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 5l-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 5l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="drawer" role="dialog" aria-modal="true" aria-label="Menu">
+      <div class="drawer-head">
+        <a class="logo-link" href="#top" data-scroll="#top">Kim Chae-yeon</a>
+        <button class="btn" type="button" id="closeMenu" aria-label="Close menu">Close</button>
+      </div>
+      <div class="drawer-body">
+        <ul class="drawer-list">
+          <li><a class="drawer-link" href="#work-01" data-scroll="#work-01">Work 01 <small>01</small></a></li>
+          <li><a class="drawer-link" href="#work-02" data-scroll="#work-02">Work 02 <small>02</small></a></li>
+          <li><a class="drawer-link" href="#work-03" data-scroll="#work-03">Work 03 <small>03</small></a></li>
+          <li><a class="drawer-link" href="#work-04" data-scroll="#work-04">Work 04 <small>04</small></a></li>
+          <li><a class="drawer-link" href="#work-05" data-scroll="#work-05">Work 05 <small>05</small></a></li>
+        </ul>
+
+        <div class="drawer-actions">
+          <a class="drawer-link" style="justify-content:flex-start;" href="https://www.artstation.com/kimchaeyeon" target="_blank" rel="noreferrer">ArtStation</a>
+          <a class="drawer-link" style="justify-content:flex-start;" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
+
+          <div class="copy-row" style="margin-top:6px;">
+            <span>coraline0120@gmail.com</span>
+            <button class="btn" type="button" id="copyEmailBtn2">Copy Email</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</aside>
 
-<!-- Content -->
-<main class="content" id="top">
+  <div class="toast" id="toast">Email copied ✅</div>
 
-<section class="hero">
-  <h1>Brand Guidelines</h1>
-  <p>이미지를 그대로 교체해 사용하는 온라인 포트폴리오</p>
-</section>
+  <script>
+    const EMAIL = "coraline0120@gmail.com";
+    const content = document.getElementById("content");
+    const toTopBtn = document.getElementById("toTopBtn");
 
-<!-- ===== WORK SECTIONS (네비가 여기로 이동함) ===== -->
+    // ✅ 네비/모바일메뉴: 오른쪽 패널(.content) 안에서 스크롤되도록 처리
+    function scrollContentTo(selector) {
+      const target = document.querySelector(selector);
+      if (!target) return;
 
-<section class="section" id="work-01">
-  <div class="section-head"><div class="section-code">01</div><div class="section-title">Work 01</div></div>
-  <div class="slides">
-    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
-    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
-    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
-  </div>
-</section>
+      // content 기준으로 target 위치 계산
+      const contentRect = content.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const current = content.scrollTop;
 
-<section class="section" id="work-02">
-  <div class="section-head"><div class="section-code">02</div><div class="section-title">Work 02</div></div>
-  <div class="slides">
-    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
-  </div>
-</section>
+      const y = current + (targetRect.top - contentRect.top) - 12; // 위 여백
+      content.scrollTo({ top: y, behavior: "smooth" });
+    }
 
-<section class="section" id="work-03">
-  <div class="section-head"><div class="section-code">03</div><div class="section-title">Work 03</div></div>
-  <div class="slides">
-    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
-  </div>
-</section>
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest("[data-scroll]");
+      if (!a) return;
 
-<section class="section" id="work-04">
-  <div class="section-head"><div class="section-code">04</div><div class="section-title">Work 04</div></div>
-  <div class="slides">
-    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
-  </div>
-</section>
+      e.preventDefault();
+      const selector = a.getAttribute("data-scroll");
+      closeMenu();
+      scrollContentTo(selector);
 
-<section class="section" id="work-05">
-  <div class="section-head"><div class="section-code">05</div><div class="section-title">Work 05</div></div>
-  <div class="slides">
-    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
-  </div>
-</section>
+      // 주소창 해시도 맞춰주기(원하시면 유지)
+      history.pushState(null, "", selector);
+    });
 
-</main>
-</div>
+    // ✅ 오른쪽 패널 스크롤에 따라 Top 버튼 표시
+    content.addEventListener("scroll", () => {
+      if (content.scrollTop > 300) toTopBtn.classList.add("show");
+      else toTopBtn.classList.remove("show");
+    });
 
-<!-- Back to top -->
-<button class="to-top" id="toTop">
-<svg viewBox="0 0 24 24" fill="none">
-  <path d="M12 5l-7 7M12 5l7 7M12 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-</svg>
-</button>
+    // ✅ Top 버튼도 오른쪽 패널을 올림
+    toTopBtn.addEventListener("click", () => {
+      closeMenu();
+      content.scrollTo({ top: 0, behavior: "smooth" });
+      history.pushState(null, "", "#top");
+    });
 
-<script>
-const btn=document.getElementById("toTop");
-window.addEventListener("scroll",()=>{
-  btn.classList.toggle("show",window.scrollY>300);
-});
-btn.addEventListener("click",()=>{
-  window.scrollTo({top:0,behavior:"smooth"});
-});
-</script>
+    // Mobile menu open/close
+    const overlay = document.getElementById("overlay");
+    const openMenuBtn = document.getElementById("openMenu");
+    const closeMenuBtn = document.getElementById("closeMenu");
 
+    function openMenu(){
+      if (!overlay) return;
+      overlay.classList.add("open");
+      overlay.setAttribute("aria-hidden", "false");
+    }
+    function closeMenu(){
+      if (!overlay) return;
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden", "true");
+    }
+
+    if (openMenuBtn) openMenuBtn.addEventListener("click", openMenu);
+    if (closeMenuBtn) closeMenuBtn.addEventListener("click", closeMenu);
+    if (overlay){
+      overlay.addEventListener("click", (e) => { if (e.target === overlay) closeMenu(); });
+    }
+    window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(); });
+
+    // Copy email + toast
+    const toast = document.getElementById("toast");
+    let toastTimer = null;
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 1500);
+    }
+
+    async function copyEmail(){
+      try{
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(EMAIL);
+        } else {
+          const t = document.createElement("textarea");
+          t.value = EMAIL;
+          t.style.position = "fixed";
+          t.style.left = "-9999px";
+          document.body.appendChild(t);
+          t.focus();
+          t.select();
+          document.execCommand("copy");
+          document.body.removeChild(t);
+        }
+        showToast("Email copied ✅");
+      } catch {
+        showToast("Copy failed 😢");
+      }
+    }
+
+    document.getElementById("copyEmailBtn")?.addEventListener("click", copyEmail);
+    document.getElementById("copyEmailBtn2")?.addEventListener("click", copyEmail);
+  </script>
 </body>
 </html>
