@@ -1,324 +1,277 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>poit4poit</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kim Chae-yeon</title>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/p4.png?raw=true">
+<style>
+:root{
+  --bg:#fff;
+  --text:#111;
+  --muted:#777;
+  --border:#eaeaea;
 
-  <!-- Noto Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;900&display=swap" rel="stylesheet">
+  --nav-w:260px;
+  --content-w:860px;
+}
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
+/* Reset */
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{color:inherit;text-decoration:none;}
+html{scroll-behavior:smooth;}
 
-    :root{
-      --bg:#f6f7f9;
-      --card:#ffffff;
-      --line:#e8eaf0;
-      --text:#1b1b1b;
-      --muted:#7b808a;
+/* Layout */
+.app{
+  display:grid;
+  grid-template-columns: var(--nav-w) 1fr;
+  min-height:100vh;
+}
 
-      --btn-border:rgba(30,34,40,0.14);
-      --btn-shadow:0 10px 22px rgba(30,34,40,0.10);
-      --btn-hover:#f4f6fb;
+/* Sidebar */
+.nav{
+  position:sticky;
+  top:0;
+  height:100vh;
+  padding:20px 16px;
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.brand a{
+  font-weight:800;
+  font-size:18px;
+}
+.nav-list{
+  list-style:none;
+  padding:0;
+  margin:12px 0 0;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.nav-item a{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 10px;
+  border-radius:8px;
+}
+.nav-item a:hover{background:#f3f3f3;}
+.nav-title{font-weight:600;}
+.nav-num{font-size:12px;color:var(--muted);}
 
-      --radius-lg:18px;
-      --radius-md:14px;
-      --radius-pill:999px;
+.nav-spacer{flex:1;}
 
-      --hero-gif:url("https://github.com/poit4poit/poit4poit.github.io/blob/main/gif/gif%20copy.gif?raw=true");
-    }
+.footer{
+  border-top:1px solid var(--border);
+  padding-top:12px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.footer a{
+  font-size:14px;
+  color:var(--muted);
+  font-weight:600;
+}
+.copy-row{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.copy-row span{
+  font-size:13px;
+  color:var(--muted);
+}
+.copy-row button{
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:#fff;
+  cursor:pointer;
+}
 
-    body{
-      font-family:
-        "Noto Sans",
-        "Apple SD Gothic Neo",
-        "Malgun Gothic",
-        "Noto Sans KR",
-        system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-    }
+/* Content */
+.content{
+  padding:32px 24px 60px;
+}
+.hero{
+  max-width:var(--content-w);
+  margin:0 auto 24px;
+}
+.hero h1{
+  margin:0;
+  font-size:52px;
+}
+.hero p{
+  margin:8px 0 0;
+  color:var(--muted);
+}
 
-    a{ color: inherit; text-decoration: none; }
+.section{
+  max-width:var(--content-w);
+  margin:0 auto 48px;
+  scroll-margin-top:24px; /* 네비 클릭 정확도 */
+}
+.section-head{
+  display:flex;
+  gap:10px;
+  margin-bottom:12px;
+}
+.section-code{
+  font-weight:800;
+  color:var(--muted);
+}
+.section-title{
+  font-size:26px;
+  font-weight:800;
+}
 
-    .wrap{
-      width: min(860px, 92vw);
-      margin: 0 auto;
-      padding: 28px 0 40px;
-      display: grid;
-      gap: 14px;
-    }
+/* Slides (이미지만) */
+.slides{
+  display:grid;
+  gap:8px; /* 너무 붙지 않게 */
+}
+.slide img{
+  width:100%;
+  height:auto;
+  display:block;
+}
 
-    .card{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      box-shadow: 0 16px 46px rgba(0,0,0,0.08);
-      overflow: hidden;
-    }
+/* Back to top */
+.to-top{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:#fff;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s;
+}
+.to-top.show{
+  opacity:1;
+  pointer-events:auto;
+}
+.to-top svg{width:18px;height:18px;}
 
-    /* ===== PROFILE ===== */
-    .profile{ text-align:center; }
-
-    .profile-hero{
-      height: 220px;
-      background-image: var(--hero-gif);
-      background-size: cover;
-      background-position: center;
-      position: relative;
-    }
-    .profile-hero::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.18),
-        rgba(0,0,0,0.55)
-      );
-    }
-
-    .profile-inner{
-      margin-top: -70px;
-      padding: 0 26px 22px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .avatar{
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      overflow:hidden;
-      margin: 0 auto 14px;
-      border: 6px solid #fff;
-      box-shadow: 0 14px 30px rgba(0,0,0,0.16);
-    }
-    .avatar img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-    }
-
-    .name{
-      font-size: clamp(28px, 3.4vw, 44px);
-      font-weight: 900;
-      margin-bottom: 6px;
-      color: #3b332a;
-    }
-    .role{
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--muted);
-      margin-bottom: 14px;
-    }
-
-    .contact{
-      display:flex;
-      justify-content:center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .email{
-      padding: 10px 12px;
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--btn-border);
-      background:#fff;
-      font-weight:800;
-      font-size:15px;
-    }
-    .copy-btn{
-      padding: 10px 14px;
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--btn-border);
-      background:#fff;
-      font-weight:900;
-      cursor:pointer;
-    }
-    .copy-btn.copied{
-      background:#b7e3c0;
-      border-color:#a6d9b1;
-      color:#0d7a34;
-    }
-
-    /* ===== SECTIONS ===== */
-    .section{
-      padding: 16px 18px;
-      display:grid;
-      gap: 10px;
-    }
-
-    .section-head{
-      display:flex;
-      justify-content: space-between;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .14em;
-      color: rgba(30,34,40,.7);
-    }
-
-    .link-btn{
-      display:flex;
-      justify-content: space-between;
-      align-items:center;
-      padding: 14px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--btn-border);
-      box-shadow: var(--btn-shadow);
-      background:#fff;
-      transition: transform .15s ease;
-    }
-    .link-btn:hover{ transform: translateY(-2px); }
-
-    .link-left{
-      display:flex;
-      gap: 12px;
-      align-items:center;
-    }
-    .link-ico{
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      border: 1px solid rgba(30,34,40,.1);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .link-ico img{
-      width: 22px;
-      height: 22px;
-    }
-    .link-title{ font-weight:900; }
-    .link-sub{
-      font-size: 12px;
-      font-weight:700;
-      color: rgba(30,34,40,.6);
-    }
-
-    /* ===== PORTFOLIO GRID ===== */
-    .portfolio-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    @media (max-width:560px){
-      .portfolio-grid{
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .footer{
-      text-align:center;
-      font-size:12px;
-      letter-spacing:.12em;
-      font-weight:800;
-      color: rgba(30,34,40,.55);
-    }
-  </style>
+/* Mobile */
+@media(max-width:640px){
+  .app{grid-template-columns:1fr;}
+  .nav{display:none;}
+  .hero h1{font-size:40px;}
+}
+</style>
 </head>
 
 <body>
-<main class="wrap">
 
-  <!-- PROFILE -->
-  <section class="card profile">
-    <div class="profile-hero"></div>
+<div class="app">
 
-    <div class="profile-inner">
-      <div class="avatar">
-        <img src="https://cdna.artstation.com/p/assets/images/images/092/234/154/4k/chaeyeon-saki-kimchaeyeon.webp?1759082382" alt="profile">
-      </div>
+<!-- Sidebar -->
+<aside class="nav">
+  <div class="brand"><a href="#top">Kim Chae-yeon</a></div>
 
-      <div class="name">poit4poit</div>
-      <div class="role">Kim Chae-yeon</div>
+  <ul class="nav-list">
+    <li class="nav-item"><a href="#work-01"><span class="nav-title">Work 01</span><span class="nav-num">01</span></a></li>
+    <li class="nav-item"><a href="#work-02"><span class="nav-title">Work 02</span><span class="nav-num">02</span></a></li>
+    <li class="nav-item"><a href="#work-03"><span class="nav-title">Work 03</span><span class="nav-num">03</span></a></li>
+    <li class="nav-item"><a href="#work-04"><span class="nav-title">Work 04</span><span class="nav-num">04</span></a></li>
+    <li class="nav-item"><a href="#work-05"><span class="nav-title">Work 05</span><span class="nav-num">05</span></a></li>
+  </ul>
 
-      <div class="contact">
-        <span class="email" id="emailTextPlain">coraline0120@gmail.com</span>
-        <button class="copy-btn" id="copyBtnProfile">Copy</button>
-      </div>
+  <div class="nav-spacer"></div>
+
+  <div class="footer">
+    <a href="https://www.artstation.com/kimchaeyeon" target="_blank">ArtStation</a>
+    <a href="https://www.linkedin.com/" target="_blank">LinkedIn</a>
+    <div class="copy-row">
+      <span>coraline0120@gmail.com</span>
+      <button onclick="navigator.clipboard.writeText('coraline0120@gmail.com')">Copy</button>
     </div>
-  </section>
+  </div>
+</aside>
 
-  <!-- POIT4POIT -->
-  <section class="card section">
-    <div class="section-head">
-      <span>POIT4POIT</span><span>SOCIAL</span>
-    </div>
+<!-- Content -->
+<main class="content" id="top">
 
-    <a class="link-btn" href="https://www.instagram.com/poit4poit" target="_blank">
-      <div class="link-left">
-        <div class="link-ico"><img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/Instagram_Symbol_3.svg"></div>
-        <div><div class="link-title">Instagram</div><div class="link-sub">@poit4poit</div></div>
-      </div>
-    </a>
+<section class="hero">
+  <h1>Brand Guidelines</h1>
+  <p>이미지를 그대로 교체해 사용하는 온라인 포트폴리오</p>
+</section>
 
-    <a class="link-btn" href="https://www.tiktok.com/@poit4poit" target="_blank">
-      <div class="link-left">
-        <div class="link-ico"><img src="https://github.com/poit4poit/poit4poit.github.io/blob/main/logo/TikTok_Logo.png?raw=true"></div>
-        <div><div class="link-title">TikTok</div><div class="link-sub">@poit4poit</div></div>
-      </div>
-    </a>
+<!-- ===== WORK SECTIONS (네비가 여기로 이동함) ===== -->
 
-    <a class="link-btn" href="https://www.youtube.com/@poit4poit" target="_blank">
-      <div class="link-left">
-        <div class="link-ico"><img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/YouTube_Symbol_3.svg"></div>
-        <div><div class="link-title">YouTube</div><div class="link-sub">@poit4poit</div></div>
-      </div>
-    </a>
+<section class="section" id="work-01">
+  <div class="section-head"><div class="section-code">01</div><div class="section-title">Work 01</div></div>
+  <div class="slides">
+    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
+    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
+    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
+  </div>
+</section>
 
-    <a class="link-btn" href="#">
-      <div class="link-left">
-        <div class="link-ico"><img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/fe5d16a847794ace929e04fbfb8c79d99419146f/logo/shopping-icon.svg"></div>
-        <div><div class="link-title">Shop</div><div class="link-sub">Coming soon</div></div>
-      </div>
-    </a>
-  </section>
+<section class="section" id="work-02">
+  <div class="section-head"><div class="section-code">02</div><div class="section-title">Work 02</div></div>
+  <div class="slides">
+    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
+  </div>
+</section>
 
-  <!-- KIM CHAE-YEON -->
-  <section class="card section">
-    <div class="section-head">
-      <span>KIM CHAE-YEON</span><span>PORTFOLIO</span>
-    </div>
+<section class="section" id="work-03">
+  <div class="section-head"><div class="section-code">03</div><div class="section-title">Work 03</div></div>
+  <div class="slides">
+    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
+  </div>
+</section>
 
-    <div class="portfolio-grid">
+<section class="section" id="work-04">
+  <div class="section-head"><div class="section-code">04</div><div class="section-title">Work 04</div></div>
+  <div class="slides">
+    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
+  </div>
+</section>
 
-      <a class="link-btn" href="https://www.artstation.com/kimchaeyeon" target="_blank">
-        <div class="link-left">
-          <div class="link-ico"><img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/ArtStation_Logo_3.svg"></div>
-          <div><div class="link-title">ArtStation</div><div class="link-sub">Portfolio</div></div>
-        </div>
-      </a>
+<section class="section" id="work-05">
+  <div class="section-head"><div class="section-code">05</div><div class="section-title">Work 05</div></div>
+  <div class="slides">
+    <img src="https://cdnb.artstation.com/p/assets/images/images/092/752/979/large/poit4poit-axewire-kimchaeyeon.webp?1760540634">
+  </div>
+</section>
 
-      <a class="link-btn" href="https://www.linkedin.com/in/poit4poit" target="_blank">
-        <div class="link-left">
-          <div class="link-ico"><img src="https://raw.githubusercontent.com/poit4poit/poit4poit.github.io/87777afba67d555a255c48aaa837b04d51060acb/logo/LinkedIn_Symbol_6.svg"></div>
-          <div><div class="link-title">LinkedIn</div><div class="link-sub">Resume</div></div>
-        </div>
-      </a>
-
-    </div>
-  </section>
-
-  <div class="footer">POIT4POIT</div>
 </main>
+</div>
+
+<!-- Back to top -->
+<button class="to-top" id="toTop">
+<svg viewBox="0 0 24 24" fill="none">
+  <path d="M12 5l-7 7M12 5l7 7M12 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</svg>
+</button>
 
 <script>
-  const email = "coraline0120@gmail.com";
-  const btn = document.getElementById("copyBtnProfile");
-  btn.addEventListener("click", () => {
-    navigator.clipboard.writeText(email);
-    btn.classList.add("copied");
-    btn.textContent = "✔️";
-    setTimeout(()=>{ btn.classList.remove("copied"); btn.textContent="Copy"; },1100);
-  });
+const btn=document.getElementById("toTop");
+window.addEventListener("scroll",()=>{
+  btn.classList.toggle("show",window.scrollY>300);
+});
+btn.addEventListener("click",()=>{
+  window.scrollTo({top:0,behavior:"smooth"});
+});
 </script>
+
 </body>
 </html>
